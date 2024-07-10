@@ -38,6 +38,7 @@ const OnboardingScreen = () => {
                     <OnboardComponent
                         slideItem={item}
                         goToNextSlide={goToNextSlide}
+                        currentSlideIndex={currentSlideIndex}
                     />
                 )}
             />
