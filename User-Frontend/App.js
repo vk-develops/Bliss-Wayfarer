@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import OnboardingScreen from "./src/Screens/Onboarding/OnboardingScreen";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -15,18 +16,9 @@ export default function App() {
     }
 
     return (
-        <View className="flex-1 items-center justify-center">
-            <Text>Open up App.js to start working on your app!</Text>
+        <View className="flex-1">
             <StatusBar style="auto" />
+            <OnboardingScreen />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});

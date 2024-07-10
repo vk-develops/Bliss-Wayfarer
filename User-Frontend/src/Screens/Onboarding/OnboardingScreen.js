@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
+import OnboardComponent from "../../Components/OnboardComponent";
 
 const OnboardingScreen = () => {
     return (
-        <View>
-            <Text>OnboardingScreen</Text>
+        <View className="flex-1">
+            <OnboardComponent />
         </View>
     );
 };
