@@ -28,9 +28,9 @@ const OnboardComponent = ({
 
     return (
         <View className="flex-1">
-            <View className="flex-[0.5] bg-purple--100 items-center justify-end rounded-b-[50px]">
+            <View className="flex-[0.5] bg-purple--100 items-center justify-end rounded-b-[40px]">
                 <Image
-                    source={OnboardImg}
+                    source={slideItem.image}
                     style={{ height: "85%", width, resizeMode: "contain" }}
                 />
             </View>
@@ -43,7 +43,7 @@ const OnboardComponent = ({
                         className="text-3xl text-center text-headerColor-light"
                         style={{ fontFamily: "jakartaBold", width: width - 32 }}
                     >
-                        Explore new travel destinations.
+                        {slideItem.title}
                     </Text>
                     <Text
                         className="text-base text-center pt-4 text-paraColor-light"
@@ -52,8 +52,7 @@ const OnboardComponent = ({
                             width: width - 32,
                         }}
                     >
-                        Discover new travel destinations with Bliss Wayfarer's
-                        expert travel recommendations throughout your journey.
+                        {slideItem.description}
                     </Text>
                     <TouchableOpacity
                         onPress={() => {

@@ -2,6 +2,7 @@ import { FlatList, View, Dimensions } from "react-native";
 import React, { useRef, useState } from "react";
 import OnboardComponent from "../../Components/OnboardComponent";
 import { slideData } from "../../Data/SlideData";
+import { StatusBar } from "expo-status-bar";
 
 const OnboardingScreen = () => {
     const slideRef = useRef();
@@ -27,6 +28,7 @@ const OnboardingScreen = () => {
 
     return (
         <View className="flex-1">
+            <StatusBar backgroundColor="#ebe5ff" />
             <FlatList
                 ref={slideRef}
                 onMomentumScrollEnd={updateCurrentSlideIndex}
