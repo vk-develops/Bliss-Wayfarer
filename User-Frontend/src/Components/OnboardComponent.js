@@ -63,6 +63,7 @@ const OnboardComponent = ({
                         entering={FadeInDown.duration(1000).springify()}
                     >
                         <TouchableOpacity
+                            activeOpacity={0.8}
                             onPress={() => {
                                 if (slideItem.id === "3") {
                                     navigation.navigate("LoginScreen");
