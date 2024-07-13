@@ -4,7 +4,7 @@ import OnboardComponent from "../../Components/OnboardComponent";
 import { slideData } from "../../Data/SlideData";
 import { StatusBar } from "expo-status-bar";
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({ navigation }) => {
     const slideRef = useRef();
 
     const width = Dimensions.get("window").width;
@@ -41,6 +41,7 @@ const OnboardingScreen = () => {
                         slideItem={item}
                         goToNextSlide={goToNextSlide}
                         currentSlideIndex={currentSlideIndex}
+                        navigation={navigation}
                     />
                 )}
             />

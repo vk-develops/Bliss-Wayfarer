@@ -66,7 +66,7 @@ const OnboardComponent = ({
                             activeOpacity={0.8}
                             onPress={() => {
                                 if (slideItem.id === "3") {
-                                    navigation.navigate("LoginScreen");
+                                    navigation.replace("AuthStack");
                                 } else {
                                     goToNextSlide();
                                 }
