@@ -16,11 +16,11 @@ const OnboardComponent = ({
         return slideData.map((_, index) => (
             <View
                 key={index}
-                className={`h-[2px] w-2 bg-[#999] rounded-lg`}
+                className={`h-[2px] w-2 rounded-full`}
                 style={{
-                    width: currentSlideIndex === index ? 50 : 20,
+                    width: currentSlideIndex === index ? 30 : 12,
                     backgroundColor:
-                        currentSlideIndex === index ? "#888" : "#ccc",
+                        currentSlideIndex === index ? "#666" : "#cacaca",
                 }}
             />
         ));

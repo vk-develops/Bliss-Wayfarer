@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import OnboardingScreen from "./src/Screens/Onboarding/OnboardingScreen";
 
 export default function App() {
