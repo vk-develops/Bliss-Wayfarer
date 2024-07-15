@@ -20,7 +20,7 @@ const OnboardComponent = ({
                 style={{
                     width: currentSlideIndex === index ? 30 : 12,
                     backgroundColor:
-                        currentSlideIndex === index ? "#666" : "#cacaca",
+                        currentSlideIndex === index ? "#4e4e4e" : "#8e8e8e",
                 }}
             />
         ));
