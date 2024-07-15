@@ -23,7 +23,7 @@ module.exports = {
                 "bgColor-light": "#fafafa",
                 "bgColor-dark": "#050505",
                 "headerColor-light": "#1e1e1e",
-                "paraColor-light": "#4e4e4e",
+                "paraColor-light": "#5e5e5e",
                 white: "#ffffff",
             },
         },

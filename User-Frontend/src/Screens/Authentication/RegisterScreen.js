@@ -1,18 +1,116 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import Logo from "../../../assets/images/BW-Logo.png";
+import { TextInput } from "react-native-gesture-handler";
 
 const RegisterScreen = () => {
     return (
-        <ScrollView className="bg-bgColor-light">
-            <View className="flex items-center justify-center">
-                <Image
-                    source={Logo}
-                    className="h-[100px]"
-                    style={{ resizeMode: "contain" }}
-                />
-            </View>
-        </ScrollView>
+        <SafeAreaView>
+            <ScrollView className=" bg-purple--800">
+                <View className="flex items-center  justify-center py-10">
+                    <Image
+                        source={Logo}
+                        className="h-[100px]"
+                        style={{ resizeMode: "contain" }}
+                    />
+                </View>
+                <View className="p-5 flex-1 bg-bgColor-light rounded-t-[30px]">
+                    <View className="pt-2">
+                        <Text
+                            className="text-3xl text-purple--950"
+                            style={{ fontFamily: "jakartaBold" }}
+                        >
+                            Register{" "}
+                        </Text>
+                        <Text
+                            className="text-base text-paraColor-light pt-3"
+                            style={{ fontFamily: "jakartaMedium" }}
+                        >
+                            Enter your details to register yourself as a user of
+                            Bliss Wayfarer
+                        </Text>
+                    </View>
+                    <View className="mt-8">
+                        <View>
+                            <Text
+                                className="text-sm uppercase text-[#555] pb-2"
+                                style={{
+                                    fontFamily: "jakartaSemiBold",
+                                    letterSpacing: 2,
+                                }}
+                            >
+                                Name:
+                            </Text>
+                            <TextInput
+                                className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
+                                placeholder="Enter your name"
+                            />
+                        </View>
+                        <View className="mt-5">
+                            <Text
+                                className="text-sm uppercase text-[#555] pb-2"
+                                style={{
+                                    fontFamily: "jakartaSemiBold",
+                                    letterSpacing: 2,
+                                }}
+                            >
+                                Email:
+                            </Text>
+                            <TextInput
+                                className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
+                                placeholder="Enter your name"
+                            />
+                        </View>
+                        <View className="mt-5">
+                            <Text
+                                className="text-sm uppercase text-[#555] pb-2"
+                                style={{
+                                    fontFamily: "jakartaSemiBold",
+                                    letterSpacing: 2,
+                                }}
+                            >
+                                Password:
+                            </Text>
+                            <TextInput
+                                className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
+                                placeholder="Enter your name"
+                            />
+                        </View>
+                    </View>
+                    <View>
+                        <TouchableOpacity className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10">
+                            <Text
+                                className="text-white text-xl"
+                                style={{ fontFamily: "jakartaSemiBold" }}
+                            >
+                                Register
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View className="flex items-center justify-center flex-row gap-3 mt-5">
+                        <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
+                        <Text
+                            className="text-sm text-[#555]"
+                            style={{ fontFamily: "jakartaMedium" }}
+                        >
+                            Or{" "}
+                        </Text>
+                        <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
+                    </View>
+                    <View>
+                        <TouchableOpacity className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10">
+                            <Text
+                                className="text-white text-xl"
+                                style={{ fontFamily: "jakartaSemiBold" }}
+                            >
+                                Register
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
