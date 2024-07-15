@@ -2,6 +2,7 @@ import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import Logo from "../../../assets/images/BW-Logo.png";
+import Gl from "../../../assets/images/Google-Logo.png";
 import { TextInput } from "react-native-gesture-handler";
 
 const RegisterScreen = () => {
@@ -98,14 +99,24 @@ const RegisterScreen = () => {
                         </Text>
                         <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
                     </View>
-                    <View>
-                        <TouchableOpacity className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10">
-                            <Text
-                                className="text-white text-xl"
-                                style={{ fontFamily: "jakartaSemiBold" }}
-                            >
-                                Register
-                            </Text>
+                    <View className="pb-5">
+                        <TouchableOpacity className="bg-[#f3f3f5] border-[#ccc] border flex items-center justify-center py-[14px] rounded-full mt-6">
+                            <View className="flex items-center justify-center flex-row gap-5">
+                                <Image
+                                    style={{
+                                        height: 20,
+                                        width: 20,
+                                        resizeMode: "contain",
+                                    }}
+                                    source={Gl}
+                                />
+                                <Text
+                                    className="text-[#555] text-base capitalize"
+                                    style={{ fontFamily: "jakartaMedium" }}
+                                >
+                                    Login with google
+                                </Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </View>
