@@ -52,6 +52,7 @@ const RegisterScreen = () => {
                             <TextInput
                                 className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
                                 placeholder="Enter your name"
+                                placeholderTextColor={"#aaa"}
                                 style={{ fontFamily: "jakartaMedium" }}
                             />
                         </View>
@@ -68,6 +69,7 @@ const RegisterScreen = () => {
                             <TextInput
                                 className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
                                 placeholder="Enter your name"
+                                placeholderTextColor={"#aaa"}
                                 style={{ fontFamily: "jakartaMedium" }}
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -87,6 +89,7 @@ const RegisterScreen = () => {
                             <TextInput
                                 className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
                                 placeholder="Enter your name"
+                                placeholderTextColor={"#aaa"}
                                 style={{ fontFamily: "jakartaMedium" }}
                                 autoCapitalize="none"
                                 autoCorrect={false}
