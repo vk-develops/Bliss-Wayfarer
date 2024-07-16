@@ -28,35 +28,18 @@ const LoginScreen = () => {
                             className="text-3xl text-purple--950"
                             style={{ fontFamily: "jakartaBold" }}
                         >
-                            Register{" "}
+                            Login{" "}
                         </Text>
                         <Text
                             className="text-base text-paraColor-light pt-3"
                             style={{ fontFamily: "jakartaMedium" }}
                         >
-                            Enter your details to register yourself as a user of
-                            Bliss Wayfarer
+                            Sign in with your registered account to continue
+                            using our app.
                         </Text>
                     </View>
                     <View className="mt-8">
                         <View>
-                            <Text
-                                className="text-sm uppercase text-[#555] pb-3"
-                                style={{
-                                    fontFamily: "jakartaSemiBold",
-                                    letterSpacing: 2,
-                                }}
-                            >
-                                Name:
-                            </Text>
-                            <TextInput
-                                className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
-                                placeholder="Enter your name"
-                                placeholderTextColor={"#aaa"}
-                                style={{ fontFamily: "jakartaMedium" }}
-                            />
-                        </View>
-                        <View className="mt-5">
                             <Text
                                 className="text-sm uppercase text-[#555] pb-3"
                                 style={{
@@ -106,7 +89,7 @@ const LoginScreen = () => {
                                 className="text-white text-xl"
                                 style={{ fontFamily: "jakartaSemiBold" }}
                             >
-                                Register
+                                Login
                             </Text>
                         </TouchableOpacity>
                     </View>
