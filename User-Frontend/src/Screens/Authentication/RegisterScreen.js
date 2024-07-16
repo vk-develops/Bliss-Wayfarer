@@ -41,7 +41,7 @@ const RegisterScreen = () => {
                     <View className="mt-8">
                         <View>
                             <Text
-                                className="text-sm uppercase text-[#555] pb-2"
+                                className="text-sm uppercase text-[#555] pb-3"
                                 style={{
                                     fontFamily: "jakartaSemiBold",
                                     letterSpacing: 2,
@@ -58,7 +58,7 @@ const RegisterScreen = () => {
                         </View>
                         <View className="mt-5">
                             <Text
-                                className="text-sm uppercase text-[#555] pb-2"
+                                className="text-sm uppercase text-[#555] pb-3"
                                 style={{
                                     fontFamily: "jakartaSemiBold",
                                     letterSpacing: 2,
@@ -78,7 +78,7 @@ const RegisterScreen = () => {
                         </View>
                         <View className="mt-5">
                             <Text
-                                className="text-sm uppercase text-[#555] pb-2"
+                                className="text-sm uppercase text-[#555] pb-3"
                                 style={{
                                     fontFamily: "jakartaSemiBold",
                                     letterSpacing: 2,
@@ -98,7 +98,10 @@ const RegisterScreen = () => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10">
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10"
+                        >
                             <Text
                                 className="text-white text-xl"
                                 style={{ fontFamily: "jakartaSemiBold" }}
@@ -118,7 +121,10 @@ const RegisterScreen = () => {
                         <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
                     </View>
                     <View className="pb-5">
-                        <TouchableOpacity className="bg-[#f3f3f5] border-[#ccc] border flex items-center justify-center py-[14px] rounded-full mt-6">
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            className="bg-[#f3f3f5] border-[#ccc] border flex items-center justify-center py-[14px] rounded-full mt-6"
+                        >
                             <View className="flex items-center justify-center flex-row gap-5">
                                 <Image
                                     style={{
