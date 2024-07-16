@@ -126,6 +126,27 @@ const LoginScreen = () => {
                             </View>
                         </TouchableOpacity>
                     </View>
+                    <View className="flex items-center justify-center flex-row gap-2 my-2">
+                        <Text
+                            style={{ fontFamily: "jakartaMedium" }}
+                            className="text-base text-paraColor-light"
+                        >
+                            Don't have an account ?
+                        </Text>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                                navigation.navigate("RegisterScreen")
+                            }
+                        >
+                            <Text
+                                style={{ fontFamily: "jakartaBold" }}
+                                className="text-base text-purple-800 underline"
+                            >
+                                Register
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
