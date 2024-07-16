@@ -6,7 +6,7 @@ import Logo from "../../../assets/images/BW-Logo.png";
 import Gl from "../../../assets/images/Google-Logo.png";
 import { TextInput } from "react-native-gesture-handler";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     return (
         <SafeAreaView>
             <StatusBar
