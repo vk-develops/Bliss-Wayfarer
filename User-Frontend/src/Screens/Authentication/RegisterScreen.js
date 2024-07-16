@@ -6,7 +6,7 @@ import Logo from "../../../assets/images/BW-Logo.png";
 import Gl from "../../../assets/images/Google-Logo.png";
 import { TextInput } from "react-native-gesture-handler";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
     return (
         <SafeAreaView>
             <StatusBar
@@ -150,7 +150,10 @@ const RegisterScreen = () => {
                         >
                             Already have an account ?
                         </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate("LoginScreen")}
+                        >
                             <Text
                                 style={{ fontFamily: "jakartaBold" }}
                                 className="text-base text-purple-800 underline"
