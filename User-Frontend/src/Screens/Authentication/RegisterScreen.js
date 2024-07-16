@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import Logo from "../../../assets/images/BW-Logo.png";
@@ -8,6 +9,11 @@ import { TextInput } from "react-native-gesture-handler";
 const RegisterScreen = () => {
     return (
         <SafeAreaView>
+            <StatusBar
+                backgroundColor="#5a03d5"
+                animated={true}
+                style="light"
+            />
             <ScrollView className=" bg-purple--800">
                 <View className="flex items-center  justify-center py-10">
                     <Image
