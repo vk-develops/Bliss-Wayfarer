@@ -69,6 +69,9 @@ const RegisterScreen = () => {
                                 className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
                                 placeholder="Enter your name"
                                 style={{ fontFamily: "jakartaMedium" }}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                keyboardType="email-address"
                             />
                         </View>
                         <View className="mt-5">
@@ -85,6 +88,9 @@ const RegisterScreen = () => {
                                 className="bg-[#f3f3f5] py-3 pl-5 rounded-full border-[#ccc] border"
                                 placeholder="Enter your name"
                                 style={{ fontFamily: "jakartaMedium" }}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                secureTextEntry={true}
                             />
                         </View>
                     </View>
