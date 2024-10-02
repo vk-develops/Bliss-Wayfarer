@@ -15,10 +15,10 @@ const travelPlaceSchema = mongoose.Schema({
             required: true,
         },
     ],
-    places: [
+    attractions: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Place",
+            ref: "Attraction",
         },
     ],
     restaurants: [
