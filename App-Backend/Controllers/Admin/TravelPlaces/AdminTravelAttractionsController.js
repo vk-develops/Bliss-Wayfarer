@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { uploadMediaFiles } from "../../../Helper/uploadMedia";
+import { uploadMediaFiles } from "../../../Helper/uploadMedia.js";
 import Attraction from "../../../Models/TravelModels/AttractionModel.js";
 import Attraction from "../../../Models/TravelModels/AttractionModel.js";
 
