@@ -1,10 +1,45 @@
 import asyncHandler from "express-async-handler";
 import { uploadMediaFiles } from "../../../Helper/uploadMedia";
+import Attraction from "../../../Models/TravelModels/AttractionModel.js";
+import Attraction from "../../../Models/TravelModels/AttractionModel.js";
+
+// @desc    Send a travel atrraction
+// @route   POST /api/v1/admin/travel/get-attraction/:id
+// @access  Private(admin)
+const getATravelAttraction = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid product id" });
+        }
+
+        const attraction = await Attraction.findById(id);
+
+        if (attraction) {
+            //Sending the response
+            res.status(200).json({
+                success: true,
+                message: "Attraction data retrieval success",
+                data: attraction,
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "No travel attractions found",
+            });
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
 
 // @desc    Create Attraction Data
 // @route   POST /api/v1/admin/travel/create-attraction
 // @access  Private(admin)
-
 const createAttraction = asyncHandler(async (req, res) => {
     try {
         const { name, location, description, lat, long, category, starRating } =
@@ -64,4 +99,4 @@ const createAttraction = asyncHandler(async (req, res) => {
     }
 });
 
-export { createAttraction };
+export { createAttraction, getATravelAttraction };
