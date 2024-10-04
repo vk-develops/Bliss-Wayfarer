@@ -128,4 +128,84 @@ const createAttraction = asyncHandler(async (req, res) => {
     }
 });
 
-export { createAttraction, getATravelAttraction, getAllTravelAttraction };
+// @desc    Update Attraction Data
+// @route   POST /api/v1/admin/travel/update-attraction/:id
+// @access  Private(admin)
+const updateTravelAttraction = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid product id" });
+        }
+
+        const {
+            name,
+            location,
+            description,
+            lat,
+            long,
+            category,
+            starRating,
+            deleteMedia,
+        } = req.body;
+
+        const attraction = await Attraction.findById(id);
+
+        if (!attraction) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Attraction not found." });
+        }
+
+        const mediaFiles = req.files;
+        let updatedMedia = attraction.media;
+
+        // Handle media deletion only in the database
+        if (deleteMedia && deleteMedia.length > 0) {
+            updatedMedia = updatedMedia.filter(
+                (media) => !deleteMedia.includes(media.url)
+            );
+        }
+
+        // Handle new media uploads
+        if (mediaFiles && mediaFiles.length > 0) {
+            const mediaUrls = await uploadMediaFiles(mediaFiles);
+            const newMedia = mediaUrls.map((url, index) => ({
+                url,
+                mediaType: mediaFiles[index].mimetype.startsWith("image")
+                    ? "Image"
+                    : "Video",
+            }));
+            updatedMedia = [...updatedMedia, ...newMedia];
+        }
+
+        // Updating the fields
+        attraction.name = name || attraction.name;
+        attraction.location = location || attraction.location;
+        attraction.description = description || attraction.description;
+        attraction.mapLocation = {
+            lat: lat || attraction.mapLocation.lat,
+            long: long || attraction.mapLocation.long,
+        };
+        attraction.category = category || attraction.category;
+        attraction.starRating = starRating || attraction.starRating;
+        attraction.media = updatedMedia;
+
+        const updatedAttraction = await attraction.save();
+
+        res.status(200).json({ success: true, data: updatedAttraction });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export {
+    createAttraction,
+    getATravelAttraction,
+    getAllTravelAttraction,
+    updateTravelAttraction,
+};
