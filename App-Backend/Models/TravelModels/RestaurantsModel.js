@@ -13,10 +13,17 @@ const restaurantSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    images: [
+    media: [
         {
-            type: String,
-            required: true,
+            url: {
+                type: String,
+                required: true,
+            },
+            mediaType: {
+                type: String,
+                enum: ["Image", "Video"],
+                required: true,
+            },
         },
     ],
     starRating: {
