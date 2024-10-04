@@ -13,7 +13,7 @@ const getATravelAttraction = asyncHandler(async (req, res) => {
         if (!mongoose.isValidObjectId(id)) {
             return res
                 .status(400)
-                .json({ success: false, message: "Invalid product id" });
+                .json({ success: false, message: "Invalid attraction id" });
         }
 
         const attraction = await Attraction.findById(id);
@@ -138,7 +138,7 @@ const updateTravelAttraction = asyncHandler(async (req, res) => {
         if (!mongoose.isValidObjectId(id)) {
             return res
                 .status(400)
-                .json({ success: false, message: "Invalid product id" });
+                .json({ success: false, message: "Invalid attraction id" });
         }
 
         const {
@@ -203,9 +203,42 @@ const updateTravelAttraction = asyncHandler(async (req, res) => {
     }
 });
 
+// @desc    Delete Attraction Data
+// @route   POST /api/v1/admin/travel/delete-attraction/:id
+// @access  Private(admin)
+const deleteTravelAttraction = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid attraction id" });
+        }
+
+        const deleteAttraction = await Attraction.findByIdAndDelete(id);
+
+        if (!deleteAttraction) {
+            return res.status(404).json({
+                success: false,
+                message: "Travel Attraction not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Travel Attraction deletion was successfully done",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 export {
     createAttraction,
     getATravelAttraction,
     getAllTravelAttraction,
     updateTravelAttraction,
+    deleteTravelAttraction,
 };
