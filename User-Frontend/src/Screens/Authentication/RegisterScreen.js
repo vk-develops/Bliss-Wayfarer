@@ -99,6 +99,9 @@ const RegisterScreen = ({ navigation }) => {
                     <View>
                         <TouchableOpacity
                             activeOpacity={0.8}
+                            onPress={() =>
+                                navigation.navigate("VerificationScreen")
+                            }
                             className="bg-purple--800 flex items-center justify-center py-[14px] rounded-full mt-10"
                         >
                             <Text
