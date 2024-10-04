@@ -11,11 +11,10 @@ const LoginScreen = ({ navigation }) => {
         <SafeAreaView>
             <StatusBar
                 backgroundColor="#5a03d5"
-                animated={true}
-                style="light"
+                style="dark"
             />
             <ScrollView className=" bg-purple--800">
-                <View className="flex items-center  justify-center py-10">
+                <View className="flex items-center justify-center py-10">
                     <Image
                         source={Logo}
                         className="h-[100px]"

@@ -6,7 +6,7 @@ import asyncHandler from "express-async-handler";
 
 const createAttraction = asyncHandler(async (req, res) => {
     try {
-        const { name, location, description } = req.body;
+        const { name, location, description, lat, long } = req.body;
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ success: false, err: err.message });
