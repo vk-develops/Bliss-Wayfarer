@@ -1,7 +1,15 @@
 import express from "express";
+import multer from "multer";
 
 // router init
 const router = express.Router();
+
+//Multer configurations
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 },
+});
 
 // HTTP Methods for getting/viewing travel places
 router.get("get-all-attraction");
