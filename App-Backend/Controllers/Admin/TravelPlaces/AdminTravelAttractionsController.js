@@ -37,6 +37,35 @@ const getATravelAttraction = asyncHandler(async (req, res) => {
     }
 });
 
+// @desc    Send all travel atrraction from db
+// @route   POST /api/v1/admin/travel/get-attraction
+// @access  Private(admin)
+const getAllTravelAttraction = asyncHandler(async (req, res) => {
+    try {
+        const attractions = await Attraction.find();
+
+        const attractionCount = await Attraction.countDocument();
+
+        if (attractions) {
+            //Sending the response
+            res.status(200).json({
+                success: true,
+                message: "Attractions data retrieval success",
+                count: attractionCount,
+                data: attractions,
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "No travel attraction found",
+            });
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 // @desc    Create Attraction Data
 // @route   POST /api/v1/admin/travel/create-attraction
 // @access  Private(admin)
@@ -99,4 +128,4 @@ const createAttraction = asyncHandler(async (req, res) => {
     }
 });
 
-export { createAttraction, getATravelAttraction };
+export { createAttraction, getATravelAttraction, getAllTravelAttraction };
