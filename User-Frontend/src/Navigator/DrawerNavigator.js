@@ -1,12 +1,14 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Dimensions } from "react-native";
 import TabNavigator from "./TabNavigator";
+import CustomDrawer from "../Components/CustomDrawer";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator
+            drawerContent={(props) => <CustomDrawer {...props} />}
             screenOptions={{
                 drawerType: "slide",
                 headerShown: false,

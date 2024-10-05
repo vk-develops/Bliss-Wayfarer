@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import OnboardingStack from "./src/Screens/Onboarding/OnboardingStack";
 import DrawerNavigator from "./src/Navigator/DrawerNavigator";
@@ -19,12 +20,12 @@ export default function App() {
     }
 
     return (
-        <View className="flex-1">
+        <SafeAreaView className="flex-1">
             <StatusBar style="auto" />
             <NavigationContainer>
                 {/* <OnboardingStack /> */}
                 <DrawerNavigator />
             </NavigationContainer>
-        </View>
+        </SafeAreaView>
     );
 }
