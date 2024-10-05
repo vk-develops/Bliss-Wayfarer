@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 import OnboardingStack from "./src/Screens/Onboarding/OnboardingStack";
+import TabNavigator from "./src/Navigator/TabNavigator";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -21,7 +22,8 @@ export default function App() {
         <View className="flex-1">
             <StatusBar style="auto" />
             <NavigationContainer>
-                <OnboardingStack />
+                {/* <OnboardingStack /> */}
+                <TabNavigator />
             </NavigationContainer>
         </View>
     );
