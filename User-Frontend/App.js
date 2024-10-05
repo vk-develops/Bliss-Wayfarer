@@ -1,11 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
 
 import OnboardingStack from "./src/Screens/Onboarding/OnboardingStack";
 import DrawerNavigator from "./src/Navigator/DrawerNavigator";
+import store from "./src/Redux/store";
+import MainNavigator from "./src/Navigator/MainNavigator";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -21,11 +24,13 @@ export default function App() {
 
     return (
         <SafeAreaView className="flex-1">
-            <StatusBar style="auto" />
-            <NavigationContainer>
-                {/* <OnboardingStack /> */}
-                <DrawerNavigator />
-            </NavigationContainer>
+            <Provider store={store}>
+                <StatusBar style="auto" />
+                <NavigationContainer>
+                    <MainNavigator />
+                    <Toast />
+                </NavigationContainer>
+            </Provider>
         </SafeAreaView>
     );
 }
