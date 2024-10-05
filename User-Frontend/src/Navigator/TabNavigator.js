@@ -5,7 +5,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
             <Tab.Screen
                 name="HomeTab"
                 component={HomeStack}
