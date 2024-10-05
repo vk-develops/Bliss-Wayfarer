@@ -5,7 +5,7 @@ import HomeHeader from "../../Components/HomeHeader";
 
 const HomeScreen = () => {
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-[#fafafa]">
             <StatusBar
                 backgroundColor="#5a03d5"
                 style="light"
@@ -18,6 +18,16 @@ const HomeScreen = () => {
                         style={{ fontFamily: "jakartaSemiBold" }}
                         className="py-4 px-5 text-sm bg-purple--100 border-[1px] border-purple--300 rounded-full"
                     />
+                </View>
+
+                {/* Categories section */}
+                <View className="m-4 pt-2">
+                    <Text
+                        className="text-2xl text-headerColor-light"
+                        style={{ fontFamily: "jakartaBold" }}
+                    >
+                        Categories
+                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>
