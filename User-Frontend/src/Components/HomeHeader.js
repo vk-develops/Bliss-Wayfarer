@@ -3,9 +3,9 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const HomeHeader = () => {
     return (
-        <View className="p-4 bg-purple--800 rounded-b-[50px]">
+        <View className="p-4 bg-purple--800 rounded-b-[40px]">
             <View className="flex items-center justify-between flex-row">
-                <View className="flex items-center justify-start flex-row gap-3">
+                <TouchableOpacity className="flex items-center justify-start flex-row gap-3">
                     <View className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
                         <Text
                             className="text-2xl text-purple--800"
@@ -28,7 +28,7 @@ const HomeHeader = () => {
                             Chennai
                         </Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View className="flex items-center justify-end flex-row gap-5">
                     <TouchableOpacity>
                         <FontAwesome6
@@ -61,7 +61,7 @@ const HomeHeader = () => {
                     Discover
                 </Text>
                 <Text
-                    className="text-base text-purple--300 pt-2 pb-10"
+                    className="text-base text-purple--300 pt-2 pb-12"
                     style={{ fontFamily: "jakartaMedium" }}
                 >
                     Explore all the popular destinations around you!
