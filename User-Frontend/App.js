@@ -4,9 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
-
-import OnboardingStack from "./src/Screens/Onboarding/OnboardingStack";
-import DrawerNavigator from "./src/Navigator/DrawerNavigator";
 import store from "./src/Redux/store";
 import MainNavigator from "./src/Navigator/MainNavigator";
 
