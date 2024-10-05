@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 import OnboardingStack from "./src/Screens/Onboarding/OnboardingStack";
-import TabNavigator from "./src/Navigator/TabNavigator";
+import DrawerNavigator from "./src/Navigator/DrawerNavigator";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -23,7 +23,7 @@ export default function App() {
             <StatusBar style="auto" />
             <NavigationContainer>
                 {/* <OnboardingStack /> */}
-                <TabNavigator />
+                <DrawerNavigator />
             </NavigationContainer>
         </View>
     );
