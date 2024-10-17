@@ -6,7 +6,10 @@ const width = Dimensions.get("window").width;
 const PostDetailScreen = () => {
     return (
         <ScrollView className="flex-1 bg-[#fafafa]">
-            <View className={`h-[${width}px] w-[${width}px] bg-white`}></View>
+            <View
+                style={{ height: width }}
+                className={`w-full bg-white shadow-lg rounded-xl`}
+            ></View>
         </ScrollView>
     );
 };
