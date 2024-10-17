@@ -9,7 +9,7 @@ const PostComponent = () => {
         <View className="border-b-[0.2px] py-6 border-slate-200">
             <View>
                 <TouchableOpacity className="flex items-center justify-start flex-row">
-                    <View className="w-12 h-12 rounded-full bg-slate-400"></View>
+                    <View className="w-12 h-12 rounded-full bg-purple--800"></View>
                     <View className="flex items-start justify-center flex-col pl-3">
                         <Text
                             className="text-lg text-headerColor-light"
@@ -28,7 +28,7 @@ const PostComponent = () => {
 
                 <View>
                     <Text
-                        className="text-base text-paraColor-light py-2"
+                        className="text-[15px] text-paraColor-light py-2"
                         style={{ fontFamily: "jakartaMedium" }}
                     >
                         Android Bundled 260ms
