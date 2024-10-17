@@ -9,7 +9,7 @@ import React from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import PostComponent from "../../Components/PostComponent";
 
-const CommunityScreen = () => {
+const CommunityScreen = ({ navigation }) => {
     return (
         <View className="flex-1 bg-[#fafafa]">
             <View className="p-4 bg-purple--800 shadow-xl flex items-center justify-between flex-row">
@@ -69,8 +69,8 @@ const CommunityScreen = () => {
                         </View>
                     </View>
                     <View>
-                        <PostComponent />
-                        <PostComponent />
+                        <PostComponent navigation={navigation} />
+                        <PostComponent navigation={navigation} />
                     </View>
                 </View>
             </ScrollView>

@@ -5,7 +5,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 const width = Dimensions.get("window").width;
 const postWidth = width - 32;
 
-const PostComponent = () => {
+const PostComponent = ({ navigation }) => {
     return (
         <View className="border-b-[0.2px] py-6 border-slate-200">
             <View>
@@ -67,7 +67,11 @@ const PostComponent = () => {
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate("PostDetailScreen");
+                        }}
+                    >
                         <Text
                             className="text-base py-2 px-4 bg-purple--800 text-white rounded-lg"
                             style={{ fontFamily: "jakartaMedium" }}
