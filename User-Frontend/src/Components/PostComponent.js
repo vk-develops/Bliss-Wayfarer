@@ -9,23 +9,33 @@ const PostComponent = ({ navigation }) => {
     return (
         <View className="border-b-[0.2px] py-6 border-slate-200">
             <View>
-                <TouchableOpacity className="flex items-center justify-start flex-row">
-                    <View className="w-12 h-12 rounded-full bg-purple--800"></View>
-                    <View className="flex items-start justify-center flex-col pl-3">
-                        <Text
-                            className="text-lg text-headerColor-light"
-                            style={{ fontFamily: "jakartaSemiBold" }}
-                        >
-                            Mightier
-                        </Text>
-                        <Text
-                            className="text-xs text-paraColor-light pt-[1px]"
-                            style={{ fontFamily: "jakartaMedium" }}
-                        >
-                            Chennai
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                <View className="flex items-center justify-between flex-row">
+                    <TouchableOpacity className="flex items-center justify-start flex-row">
+                        <View className="w-12 h-12 rounded-full bg-purple--800"></View>
+                        <View className="flex items-start justify-center flex-col pl-3">
+                            <Text
+                                className="text-lg text-headerColor-light"
+                                style={{ fontFamily: "jakartaSemiBold" }}
+                            >
+                                Mightier
+                            </Text>
+                            <Text
+                                className="text-xs text-paraColor-light pt-[1px]"
+                                style={{ fontFamily: "jakartaMedium" }}
+                            >
+                                Chennai
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <FontAwesome6
+                            name="bars-staggered"
+                            size={18}
+                            color="#1e1e1e"
+                        />
+                    </TouchableOpacity>
+                </View>
 
                 <View>
                     <Text
