@@ -1,4 +1,7 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+    createStackNavigator,
+    CardStyleInterpolators,
+} from "@react-navigation/stack";
 import CommunityScreen from "./CommunityScreen";
 import PostDetailScreen from "./PostDetailScreen";
 
@@ -6,7 +9,14 @@ const Stack = createStackNavigator();
 
 const CommunityStack = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+            screenOptions={{
+                gestureEnabled: true,
+                gestureDirection: "horizontal",
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                headerShown: false,
+            }}
+        >
             <Stack.Screen
                 name="CommunityScreen"
                 component={CommunityScreen}
