@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import React from "react";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const width = Dimensions.get("window").width;
 const postWidth = width - 32;
@@ -40,6 +41,41 @@ const PostComponent = () => {
                 <View
                     className={`w-full h-80 bg-white shadow-lg rounded-xl mt-4`}
                 ></View>
+
+                <View className="mt-4 flex items-center justify-between flex-row">
+                    <View className="flex items-center justify-start flex-row gap-5">
+                        <TouchableOpacity>
+                            <FontAwesome6
+                                name="bars-staggered"
+                                size={22}
+                                color="#1e1e1e"
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <FontAwesome6
+                                name="bars-staggered"
+                                size={22}
+                                color="#1e1e1e"
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <FontAwesome6
+                                name="bars-staggered"
+                                size={22}
+                                color="#1e1e1e"
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity>
+                        <Text
+                            className="text-base py-2 px-4 bg-purple--800 text-white rounded-lg"
+                            style={{ fontFamily: "jakartaMedium" }}
+                        >
+                            View Post
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
