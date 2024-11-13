@@ -3,6 +3,7 @@ import multer from "multer";
 import { isAdmin, protect } from "../../Middlewares/authMiddleware.js";
 import {
     createAttraction,
+    deleteTravelAttraction,
     getAllTravelAttraction,
     getATravelAttraction,
     updateTravelAttraction,
@@ -52,7 +53,12 @@ router.put("/update-hotel/:id");
 router.put("/update-travel-place/:id");
 
 // HTTP Methods for deleting travel places
-router.delete("/delete-attraction/:id");
+router.delete(
+    "/delete-attraction/:id",
+    protect,
+    isAdmin,
+    deleteTravelAttraction
+);
 router.delete("/delete-restaurant/:id");
 router.delete("/delete-hotel/:id");
 router.delete("/delete-travel-place/:id");
