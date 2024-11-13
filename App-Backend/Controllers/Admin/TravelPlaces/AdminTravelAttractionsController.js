@@ -199,7 +199,11 @@ const updateTravelAttraction = asyncHandler(async (req, res) => {
 
         const updatedAttraction = await attraction.save();
 
-        res.status(200).json({ success: true, data: updatedAttraction });
+        res.status(200).json({
+            success: true,
+            message: "Travel Attraction updation was successfully done",
+            data: updatedAttraction,
+        });
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ success: false, err: err.message });
