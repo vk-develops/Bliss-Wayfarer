@@ -1,7 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { uploadMediaFiles } from "../../../Helper/uploadMedia.js";
 import Attraction from "../../../Models/TravelModels/AttractionModel.js";
-import Attraction from "../../../Models/TravelModels/AttractionModel.js";
 
 // @desc    Send a travel atrraction
 // @route   POST /api/v1/admin/travel/get-attraction/:id

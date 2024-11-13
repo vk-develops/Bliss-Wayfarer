@@ -34,6 +34,9 @@ app.get("/api/v1/", (req, res) => {
 app.use("/api/v1/users/auth", authRoute);
 app.use("/api/v1/users/account", accountRoute);
 
+//Admin Api's
+// app.use("/api/travel-places");
+
 //App listen
 app.listen(PORT, () => {
     console.log(`Server started and running on http://localhost:${PORT}`);

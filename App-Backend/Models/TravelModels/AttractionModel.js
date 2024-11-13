@@ -25,7 +25,7 @@ const attractionSchema = mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
+        required: true, //Beaches, Regligious sites, Amusement & Theme park, Shopping Malls, Museums
     },
     media: [
         {
