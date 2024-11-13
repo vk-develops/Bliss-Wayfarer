@@ -43,22 +43,23 @@ const getAllTravelAttraction = asyncHandler(async (req, res) => {
     try {
         const attractions = await Attraction.find();
 
-        const attractionCount = await Attraction.countDocument();
+        const attractionCount = await Attraction.countDocuments();
 
-        if (attractions) {
-            //Sending the response
-            res.status(200).json({
-                success: true,
-                message: "Attractions data retrieval success",
-                count: attractionCount,
-                data: attractions,
-            });
-        } else {
-            return res.status(400).json({
+        if (attractions.length === 0) {
+            // If there are no attractions
+            return res.status(404).json({
                 success: false,
-                message: "No travel attraction found",
+                message: "No travel attractions available",
             });
         }
+
+        // Sending the response when attractions are found
+        res.status(200).json({
+            success: true,
+            message: "Attractions data retrieval success",
+            count: attractionCount,
+            data: attractions,
+        });
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ success: false, err: err.message });
