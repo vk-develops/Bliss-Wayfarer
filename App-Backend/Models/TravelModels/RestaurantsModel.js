@@ -9,9 +9,23 @@ const restaurantSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    mapLocation: {
+        lat: {
+            type: String,
+            required: true,
+        },
+        long: {
+            type: String,
+            required: true,
+        },
+    },
     description: {
         type: String,
         required: true,
+    },
+    category: {
+        type: String,
+        required: true, //fast food, cafe, fine dining, pub
     },
     media: [
         {
