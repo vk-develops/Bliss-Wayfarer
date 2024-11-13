@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import mongoose from "mongoose";
 import { uploadMediaFiles } from "../../../Helper/uploadMedia.js";
 import Attraction from "../../../Models/TravelModels/AttractionModel.js";
 
