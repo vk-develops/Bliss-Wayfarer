@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "./Routes/authRoute.js";
 import accountRoute from "./Routes/accountRoute.js";
 import adminTravelRoute from "./Routes/Admin/adminTravelRoute.js";
+import postRoute from "./Routes/postRoute.js";
 
 //App init
 dotenv.config();
@@ -34,6 +35,7 @@ app.get("/api/v1/", (req, res) => {
 //API's
 app.use("/api/v1/users/auth", authRoute);
 app.use("/api/v1/users/account", accountRoute);
+app.use("/api/v1/travel-community/posts", postRoute);
 
 //Admin Api's
 app.use("/api/v1/travel-places/attractions", adminTravelRoute);

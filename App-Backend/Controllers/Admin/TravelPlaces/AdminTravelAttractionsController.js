@@ -77,8 +77,6 @@ const createAttraction = asyncHandler(async (req, res) => {
 
         const mediaFiles = req.files;
 
-        console.log(mediaFiles);
-
         if (
             !name ||
             !location ||
