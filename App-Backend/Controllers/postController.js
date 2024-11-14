@@ -4,9 +4,9 @@ import User from "../Models/userModel.js";
 import Post from "../Models/postModel.js";
 import { uploadMediaFiles } from "../Helper/uploadMedia.js";
 
-// @desc    Send a travel atrraction
-// @route   POST /api/v1/admin/travel/get-attraction/:id
-// @access  Private(admin)
+// @desc    Get A post
+// @route   POST /api/v1/travel-community/posts/get-a-post/:id
+// @access  Private
 const getAPost = asyncHandler(async (req, res) => {
     try {
         const { id } = req.params;
@@ -39,7 +39,7 @@ const getAPost = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get all Posts
-// @route   POST /api/v1/users/posts/get-all-posts
+// @route   POST /api/v1/travel-community/posts/get-all-posts
 // @access  Private
 
 const getAllPosts = asyncHandler(async (req, res) => {
@@ -84,7 +84,7 @@ const getAllPosts = asyncHandler(async (req, res) => {
 });
 
 // @desc    Create Post
-// @route   POST /api/v1/users/posts/create-post
+// @route   POST /api/v1/travel-community/posts/create-post
 // @access  Private
 const createPost = asyncHandler(async (req, res) => {
     try {
@@ -157,6 +157,10 @@ const createPost = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, err: err.message });
     }
 });
+
+// @desc    Update The Posts
+// @route   POST /api/v1/travel-community/posts/update-post/:id
+// @access  Private
 
 const updatePost = asyncHandler(async (req, res) => {
     try {
@@ -236,7 +240,7 @@ const updatePost = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get related Posts
-// @route   POST /api/v1/users/posts/get-related-posts
+// @route   POST /api/v1/travel-community/posts/get-related-posts
 // @access  Private
 
 const getRelatedPosts = asyncHandler(async (req, res) => {
@@ -282,4 +286,43 @@ const getRelatedPosts = asyncHandler(async (req, res) => {
     }
 });
 
-export { createPost, getAllPosts, updatePost, getRelatedPosts, getAPost };
+// @desc    Delete Post Data
+// @route   POST /api/v1/travel-community/posts/delete-post/:id
+// @access  Private
+const deletePost = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid post id" });
+        }
+
+        const deletePost = await Post.findByIdAndDelete(id);
+
+        if (!deletePost) {
+            return res.status(404).json({
+                success: false,
+                message: "Travel Post not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Post deletion was successfully done",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export {
+    createPost,
+    getAllPosts,
+    updatePost,
+    getRelatedPosts,
+    getAPost,
+    deletePost,
+};

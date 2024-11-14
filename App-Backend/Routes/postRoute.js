@@ -1,6 +1,10 @@
 import express from "express";
 import multer from "multer";
-import { createPost, getAllPosts } from "../Controllers/postController.js";
+import {
+    createPost,
+    getAllPosts,
+    getAPost,
+} from "../Controllers/postController.js";
 import { protect } from "../Middlewares/authMiddleware.js";
 import { getRelatedPosts } from "../Controllers/postController.js";
 import { updatePost } from "../Controllers/postController.js";
@@ -16,7 +20,7 @@ const upload = multer({
 });
 
 router.get("/get-all-posts", protect, getAllPosts);
-router.get("/get-post/:id");
+router.get("/get-a-post/:id", protect, getAPost);
 router.post(
     "/create-post",
     protect,
