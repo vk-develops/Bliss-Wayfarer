@@ -41,6 +41,24 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    friendRequestsSent: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    friendRequestsReceived: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
 });
 
 const User = mongoose.model("User", userSchema);
