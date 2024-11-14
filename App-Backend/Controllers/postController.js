@@ -245,7 +245,7 @@ const updatePost = asyncHandler(async (req, res) => {
 
 const getRelatedPosts = asyncHandler(async (req, res) => {
     try {
-        const { tags, id } = req.params;
+        const { tags, id } = req.query; // Get tags and id from the query
 
         if (!tags || !id) {
             return res.status(400).json({
@@ -254,35 +254,46 @@ const getRelatedPosts = asyncHandler(async (req, res) => {
             });
         }
 
-        // Capitalizing the type
-        const postTag = type.charAt(0).toUpperCase() + type.slice(1);
+        // Ensure tags is an array and capitalize each tag
+        const capitalizedTags = tags
+            .split(",")
+            .map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1));
 
         // Finding the original post
         const originalPost = await Post.findById(id);
         if (!originalPost) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Post not found" });
+            return res.status(404).json({
+                success: false,
+                message: "Post not found",
+            });
         }
 
+        // Find related posts by tags (excluding the original post)
         const relatedPosts = await Post.find({
-            _id: { $ne: id },
-            tags: postTag,
+            _id: { $ne: id }, // Exclude the original post
+            tags: { $in: capitalizedTags }, // Match any of the tags
         }).limit(5);
 
         if (relatedPosts.length === 0) {
-            return res
-                .status(404)
-                .json({ success: false, message: "No related posts found" });
+            return res.status(404).json({
+                success: false,
+                message: "No related posts found",
+            });
         }
 
         res.status(200).json({
             success: true,
-            data: { count: relatedPosts.length, posts: relatedPosts },
+            data: {
+                count: relatedPosts.length,
+                posts: relatedPosts,
+            },
         });
     } catch (err) {
         console.log(err.message);
-        res.status(500).json({ success: false, err: err.message });
+        res.status(500).json({
+            success: false,
+            err: err.message,
+        });
     }
 });
 
@@ -304,7 +315,7 @@ const deletePost = asyncHandler(async (req, res) => {
         if (!deletePost) {
             return res.status(404).json({
                 success: false,
-                message: "Travel Post not found",
+                message: "Post not found to delete",
             });
         }
 

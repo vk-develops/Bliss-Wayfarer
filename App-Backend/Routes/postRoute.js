@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import {
     createPost,
+    deletePost,
     getAllPosts,
     getAPost,
 } from "../Controllers/postController.js";
@@ -33,7 +34,7 @@ router.put(
     upload.array("mediaFiles", 10),
     updatePost
 );
-router.delete("/delete-post/:id");
+router.delete("/delete-post/:id", protect, deletePost);
 router.get("/get-related-posts", protect, getRelatedPosts);
 
 //Exports
