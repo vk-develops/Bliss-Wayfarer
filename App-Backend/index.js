@@ -36,7 +36,7 @@ app.get("/api/v1/", (req, res) => {
 //API's
 app.use("/api/v1/users/auth", authRoute);
 app.use("/api/v1/users/account", accountRoute);
-app.use("/api/v1/travel-community/posts", postRoute);
+app.use("/api/v1/users/travel-community/posts", postRoute);
 
 //Admin Api's
 app.use("/api/v1/admin/travel-places/attractions", adminTravelRoute);
