@@ -8,6 +8,7 @@ import authRoute from "./Routes/authRoute.js";
 import accountRoute from "./Routes/accountRoute.js";
 import adminTravelRoute from "./Routes/Admin/adminTravelRoute.js";
 import postRoute from "./Routes/postRoute.js";
+import adminPostRoute from "./Routes/Admin/adminPostRoute.js";
 
 //App init
 dotenv.config();
@@ -38,7 +39,8 @@ app.use("/api/v1/users/account", accountRoute);
 app.use("/api/v1/travel-community/posts", postRoute);
 
 //Admin Api's
-app.use("/api/v1/travel-places/attractions", adminTravelRoute);
+app.use("/api/v1/admin/travel-places/attractions", adminTravelRoute);
+app.use("/api/v1/admin/travel-community/posts", adminPostRoute);
 
 //App listen
 app.listen(PORT, () => {
