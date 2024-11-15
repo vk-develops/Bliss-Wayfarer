@@ -94,4 +94,63 @@ const getAllFriends = asyncHandler(async (req, res) => {
     }
 });
 
-export { getAFriend, getAllFriends };
+// @desc    Send Friend Request
+// @route   POST /api/v1/users/travel-community/friends/send-friend-request/:id
+// @access  Private
+const sendFriendRequest = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const senderId = req.user._id;
+
+        // Check if the friend ID is a valid MongoDB ObjectID
+        if (!mongoose.isValidObjectId(senderId)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid friend ID" });
+        }
+
+        if (senderId.toString() === id) {
+            return res
+                .status(400)
+                .json({ message: "Cannot send a request to yourself." });
+        }
+
+        // Retrieve the current user from the database
+        const recipient = await User.findById(id);
+        const sender = await User.findById(senderId);
+
+        if (!sender || !recipient) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Users not found" });
+        }
+
+        if (
+            recipient.friendRequestsReceived.includes(senderId) ||
+            recipient.friends.includes(senderId)
+        ) {
+            return res
+                .status(400)
+                .json({
+                    message:
+                        "Friend request already sent or user is already a friend.",
+                });
+        }
+
+        recipient.friendRequestsReceived.push(senderId);
+        sender.friendRequestsSent.push(id);
+
+        await recipient.save();
+        await sender.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Friend request sent successfully",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export { getAFriend, getAllFriends, sendFriendRequest };
