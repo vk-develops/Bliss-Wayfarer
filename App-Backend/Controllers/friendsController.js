@@ -247,4 +247,10 @@ const rejectFriendRequest = asyncHandler(async (req, res) => {
     }
 });
 
-export { getAFriend, getAllFriends, sendFriendRequest, acceptFriendRequest };
+export {
+    getAFriend,
+    getAllFriends,
+    sendFriendRequest,
+    acceptFriendRequest,
+    rejectFriendRequest,
+};

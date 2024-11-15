@@ -4,6 +4,7 @@ import {
     acceptFriendRequest,
     getAFriend,
     getAllFriends,
+    rejectFriendRequest,
     sendFriendRequest,
 } from "../Controllers/friendsController.js";
 
@@ -14,7 +15,7 @@ router.get("/get-all-friends", protect, getAllFriends);
 router.get("/get-a-friend/:id", protect, getAFriend);
 router.post("/send-friend-request/:id", protect, sendFriendRequest);
 router.put("/accept-friend-request/:id", protect, acceptFriendRequest);
-router.delete("/reject-friend-request", protect);
+router.delete("/reject-friend-request/:id", protect, rejectFriendRequest);
 router.get("/remove-friend", protect);
 
 //Exports
