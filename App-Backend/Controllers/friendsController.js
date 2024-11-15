@@ -203,4 +203,48 @@ const acceptFriendRequest = asyncHandler(async (req, res) => {
     }
 });
 
-export { getAFriend, getAllFriends, sendFriendRequest };
+// @desc    Reject a Friend Request
+// @route   DELETE /api/v1/users/reject-friend-request/:id
+// @access  Private
+const rejectFriendRequest = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user._id;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid request ID" });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+        }
+
+        // Check if the friend request exists in pendingRequests
+        const requestIndex = user.pendingRequests.indexOf(id);
+        if (requestIndex === -1) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Friend request not found" });
+        }
+
+        // Remove the friend request from pendingRequests
+        user.pendingRequests.splice(requestIndex, 1);
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Friend request rejected",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export { getAFriend, getAllFriends, sendFriendRequest, acceptFriendRequest };
