@@ -129,12 +129,10 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
             recipient.friendRequestsReceived.includes(senderId) ||
             recipient.friends.includes(senderId)
         ) {
-            return res
-                .status(400)
-                .json({
-                    message:
-                        "Friend request already sent or user is already a friend.",
-                });
+            return res.status(400).json({
+                message:
+                    "Friend request already sent or user is already a friend.",
+            });
         }
 
         recipient.friendRequestsReceived.push(senderId);
@@ -146,6 +144,58 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Friend request sent successfully",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+// @desc    Accept Friend Request
+// @route   POST /api/v1/users/travel-community/friends/accept-friend-request/:id
+// @access  Private
+const acceptFriendRequest = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user._id;
+
+        // Check if the friend ID is a valid MongoDB ObjectID
+        if (!mongoose.isValidObjectId(senderId)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid friend ID" });
+        }
+
+        const user = await User.findById(userId);
+        const requester = await User.findById(id);
+
+        if (!user || !requester) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        if (!user.friendRequestsReceived.includes(id)) {
+            return res
+                .status(400)
+                .json({ message: "Friend request not found." });
+        }
+
+        // Move users from friend requests to friends list
+        user.friends.push(id);
+        requester.friends.push(userId);
+
+        user.friendRequestsReceived = user.friendRequestsReceived.filter(
+            (id) => id.toString() !== id
+        );
+        requester.friendRequestsSent = requester.friendRequestsSent.filter(
+            (id) => id.toString() !== userId
+        );
+
+        await user.save();
+        await requester.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Friend request accepted",
         });
     } catch (err) {
         console.log(err.message);
