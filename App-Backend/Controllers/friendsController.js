@@ -30,12 +30,10 @@ const getAFriend = asyncHandler(async (req, res) => {
         const friend = user.friends.find((friend) => friend.toString() === id);
 
         if (!friend) {
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "Friend not found in your friend list",
-                });
+            return res.status(404).json({
+                success: false,
+                message: "Friend not found in your friend list",
+            });
         }
 
         // Retrieve the friend's data
@@ -59,4 +57,41 @@ const getAFriend = asyncHandler(async (req, res) => {
     }
 });
 
-export default getAFriend;
+// @desc    Get All Friend
+// @route   POST /api/v1/users/travel-community/friends/get-all-friends
+// @access  Private
+const getAllFriends = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        // Retrieve the current user from the database
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res
+                .status(400)
+                .json({ success: false, message: "User not found" });
+        }
+
+        const friends = await user.friends;
+        const count = friends.length;
+
+        if (count == 0) {
+            return res
+                .status(400)
+                .json({ success: false, message: "No friends" });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "All Friends Retrieved",
+            count: count,
+            friends: friends,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export { getAFriend };
