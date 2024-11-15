@@ -94,4 +94,4 @@ const getAllFriends = asyncHandler(async (req, res) => {
     }
 });
 
-export { getAFriend };
+export { getAFriend, getAllFriends };
