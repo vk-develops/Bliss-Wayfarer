@@ -1,9 +1,16 @@
-import { View, Text, ScrollView, TextInput } from "react-native";
+import { View, Text, ScrollView, TextInput, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "../../Components/HomeHeader";
+import useLogout from "../../Hooks/useLogout";
 
 const HomeScreen = () => {
+    const { logoutHandler } = useLogout();
+
+    const handleLogout = async () => {
+        await logoutHandler();
+    };
+
     return (
         <SafeAreaView className="flex-1 bg-[#fafafa]">
             <StatusBar
@@ -29,6 +36,10 @@ const HomeScreen = () => {
                         Categories
                     </Text>
                 </View>
+                <Button
+                    onPress={handleLogout}
+                    title="logout"
+                />
             </ScrollView>
         </SafeAreaView>
     );

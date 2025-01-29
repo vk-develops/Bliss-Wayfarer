@@ -38,43 +38,40 @@ const getAPost = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Get all Posts
+// @desc    Get all Posts with Lazy Loading, Like & Comment Count
 // @route   POST /api/v1/travel-community/posts/get-all-posts
 // @access  Private
 
 const getAllPosts = asyncHandler(async (req, res) => {
     try {
-        // Pagination Parameters
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
+        const limit = parseInt(req.query.limit) || 10; // Number of posts to load at a time
+        const lastPostId = req.query.lastPostId; // The last post's ID received from the frontend
 
-        // Fetching posts from the database, including user info
-        const Posts = await Post.find()
-            .populate("user", "name email image")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit)
-            .exec();
-
-        const totalPosts = await Post.countDocuments();
-
-        // Check if there are any posts
-        if (Posts.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "No posts available",
-            });
+        let query = {};
+        if (lastPostId) {
+            query._id = { $lt: lastPostId }; // Fetch posts with an ID less than the last fetched post
         }
 
-        // Success message
+        // Fetch posts with user info + like count + comment count
+        const Posts = await Post.find(query)
+            .populate("user", "name email image")
+            .sort({ _id: -1 })
+            .limit(limit)
+            .lean(); // Convert Mongoose documents to plain JSON objects
+
+        // Add like and comment count
+        const modifiedPosts = Posts.map((post) => ({
+            ...post,
+            likeCount: post.likes.length, // Count the number of likes
+            commentCount: post.comments.length, // Count the number of comments
+        }));
+
         return res.status(200).json({
             success: true,
             data: {
-                count: Posts.length,
-                page,
-                totalPages: Math.ceil(totalPosts / limit),
-                posts: Posts,
+                count: modifiedPosts.length,
+                hasMore: modifiedPosts.length > 0,
+                posts: modifiedPosts,
             },
         });
     } catch (err) {
@@ -90,24 +87,19 @@ const createPost = asyncHandler(async (req, res) => {
     try {
         const { title, caption, location } = req.body;
 
-        let { tags } = req.body;
+        let { category } = req.body;
 
         const mediaFiles = req.files;
 
         //Getting the id from the protect route
         const id = req.user._id;
 
-        if (!title || !caption || !tags || !location || tags.length === 0) {
+        if (!title || !caption || !category || !location) {
             return res.status(400).json({
                 success: false,
                 message:
                     "Title, caption, location and at least one tag are required",
             });
-        }
-
-        // Ensuring tags is an array
-        if (typeof tags === "string") {
-            tags = tags.split(",").map((tag) => tag.trim());
         }
 
         //Find the user
@@ -126,18 +118,13 @@ const createPost = asyncHandler(async (req, res) => {
                 }));
             }
 
-            // Capitalize tags
-            const capitalizedTags = tags.map(
-                (tag) => tag.charAt(0).toUpperCase() + tag.slice(1)
-            );
-
             // Create the post
             const post = new Post({
                 user: id,
                 title,
                 caption,
                 location,
-                tags: capitalizedTags,
+                category,
                 media,
             });
 
@@ -239,25 +226,20 @@ const updatePost = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Get related Posts
+// @desc    Get related Posts based on location
 // @route   POST /api/v1/travel-community/posts/get-related-posts
 // @access  Private
 
 const getRelatedPosts = asyncHandler(async (req, res) => {
     try {
-        const { tags, id } = req.query; // Get tags and id from the query
+        const { location, id } = req.query; // Get location and post ID from query
 
-        if (!tags || !id) {
+        if (!location || !id) {
             return res.status(400).json({
                 success: false,
-                message: "The tags and id are required",
+                message: "The location and id are required",
             });
         }
-
-        // Ensure tags is an array and capitalize each tag
-        const capitalizedTags = tags
-            .split(",")
-            .map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1));
 
         // Finding the original post
         const originalPost = await Post.findById(id);
@@ -268,10 +250,10 @@ const getRelatedPosts = asyncHandler(async (req, res) => {
             });
         }
 
-        // Find related posts by tags (excluding the original post)
+        // Find related posts by location (excluding the original post)
         const relatedPosts = await Post.find({
             _id: { $ne: id }, // Exclude the original post
-            tags: { $in: capitalizedTags }, // Match any of the tags
+            location: location, // Match the same location
         }).limit(5);
 
         if (relatedPosts.length === 0) {

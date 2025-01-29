@@ -16,7 +16,11 @@ const postSchema = mongoose.Schema(
             required: true,
         },
         location: { type: String, required: true },
-        tags: [{ type: String, required: true }],
+        category: {
+            type: String,
+            enum: ["Gem", "Itinerary", "General"],
+            required: true,
+        },
         media: [
             {
                 url: {
