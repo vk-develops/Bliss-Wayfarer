@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "../Components/Layout";
 import HomePage from "../Pages/HomePage";
 import LoginPage from "../Pages/LoginPage";
+import AdminPage from "../Pages/AdminPage";
 
 const Router = () => {
     return (
@@ -19,6 +20,10 @@ const Router = () => {
             <Route
                 path="/login"
                 element={<LoginPage />}
+            />
+            <Route
+                path="/admin"
+                element={<AdminPage />}
             />
         </Routes>
     );
