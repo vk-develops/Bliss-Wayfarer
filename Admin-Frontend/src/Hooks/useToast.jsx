@@ -1,15 +1,16 @@
 import { toast } from "react-toastify";
+import { useCallback } from "react";
 
-const useSuccessToast = (msg) => {
-    toast.success(msg, {
-        position: "top-center",
-    });
+const useToast = () => {
+    const showSuccess = useCallback((msg) => {
+        toast.success(msg, { position: "top-center" });
+    }, []);
+
+    const showError = useCallback((msg) => {
+        toast.error(msg, { position: "top-center" });
+    }, []);
+
+    return { showSuccess, showError };
 };
 
-const useErrorToast = (msg) => {
-    toast.error(msg, {
-        position: "top-center",
-    });
-};
-
-export { useSuccessToast, useErrorToast };
+export default useToast;

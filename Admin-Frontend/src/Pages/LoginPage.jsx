@@ -1,40 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../Redux/authApiSlice";
+import { setCredentials } from "../Redux/Features/usersAuthApiSlice";
+import useToast from "../Hooks/useToast";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const { showSuccess, showError } = useToast();
+
+    const dispatch = useDispatch();
+
+    const [login, { isLoading }] = useLoginMutation();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError("");
 
         try {
-            const response = await fetch("https://your-backend-api.com/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-            setLoading(false);
-
-            if (response.ok) {
-                navigate("/admin");
-            } else {
-                setError(
-                    data.message || "Invalid credentials. Please try again."
-                );
-            }
-        } catch (error) {
-            setLoading(false);
-            setError("Something went wrong. Please try again later.");
+            const response = await login({ email, password }).unwrap();
+            console.log(response);
+            const userInfo = response.userInfo;
+            dispatch(setCredentials(userInfo));
+            showSuccess(response.data.message);
+            //Redirect after successfull login
+            navigate("/admin");
+        } catch (err) {
+            console.log(err.data.message);
+            showError(err.data.message);
         }
     };
 
@@ -47,11 +42,6 @@ const LoginPage = () => {
                 <h2 className="text-center text-2xl font-bold mb-4">
                     Admin Login
                 </h2>
-                {error && (
-                    <p className="text-red-500 text-sm text-center mb-3">
-                        {error}
-                    </p>
-                )}
                 <div className="mb-4">
                     <label className="block font-semibold mb-1">Email</label>
                     <input
@@ -77,9 +67,9 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     className="w-full p-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-800 transition disabled:opacity-50"
-                    disabled={loading}
+                    disabled={isLoading}
                 >
-                    {loading ? "Logging in..." : "Login"}
+                    {isLoading ? "Logging in..." : "Login"}
                 </button>
             </form>
         </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -22,7 +21,6 @@ const Layout = () => {
     return (
         <>
             <Header />
-            <ToastContainer />
             <Outlet />
         </>
     );
