@@ -1,15 +1,45 @@
 import {
     View,
     Text,
-    ScrollView,
+    FlatList,
     TouchableOpacity,
     TextInput,
+    ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import PostComponent from "../../Components/PostComponent";
+import { useGetAllPostsQuery } from "../../Redux/Services/communityApiSlice";
 
 const CommunityScreen = ({ navigation }) => {
+    const [posts, setPosts] = useState([]);
+    const [lastPostId, setLastPostId] = useState(null);
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+    const { data, isLoading, error } = useGetAllPostsQuery({
+        limit: 10,
+        lastPostId: lastPostId || null,
+    });
+
+    useEffect(() => {
+        if (data?.data?.posts && data.data.posts.length > 0) {
+            console.log("Call made");
+            setPosts((prevPosts) => [...prevPosts, ...data.data.posts]);
+            setLastPostId(
+                data.data.posts[data.data.posts.length - 1]?._id || null
+            );
+        }
+    }, [data]);
+
+    const loadMorePosts = () => {
+        if (data?.data?.hasMore && !isFetchingMore) {
+            setIsFetchingMore(true);
+            setTimeout(() => {
+                setIsFetchingMore(false);
+            }, 1000);
+        }
+    };
+
     return (
         <View className="flex-1 bg-[#fff]">
             <View className="p-4 bg-purple--800 shadow-xl flex items-center justify-between flex-row">
@@ -27,46 +57,37 @@ const CommunityScreen = ({ navigation }) => {
                             color="white"
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesome6
-                            name="bars-staggered"
-                            size={22}
-                            color="white"
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesome6
-                            name="bars-staggered"
-                            size={22}
-                            color="white"
-                        />
-                    </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView>
-                <View className="p-4">
-                    <View className="pb-2">
-                        <TouchableOpacity className="mt-5 relative">
-                            <TextInput
-                                placeholder="Search for travel posts"
-                                style={{ fontFamily: "jakartaSemiBold" }}
-                                className="h-12 pl-6 text-sm bg-[#eee] border-[1px] border-purple--100 rounded-full"
-                            />
-                            <TouchableOpacity className="w-12 h-12 bg-purple--800 rounded-full absolute top-0 right-0 flex items-center justify-center">
-                                <FontAwesome6
-                                    name="bars-staggered"
-                                    size={18}
-                                    color="white"
-                                />
-                            </TouchableOpacity>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <PostComponent navigation={navigation} />
-                        <PostComponent navigation={navigation} />
-                    </View>
-                </View>
-            </ScrollView>
+
+            <FlatList
+                className="p-4"
+                data={posts}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <PostComponent
+                        post={item}
+                        navigation={navigation}
+                    />
+                )}
+                ListEmptyComponent={() =>
+                    isLoading ? (
+                        <Text>Loading posts...</Text>
+                    ) : (
+                        <Text>No posts found.</Text>
+                    )
+                }
+                ListFooterComponent={() =>
+                    isFetchingMore ? (
+                        <ActivityIndicator
+                            size="large"
+                            color="purple"
+                        />
+                    ) : null
+                }
+                onEndReached={loadMorePosts} // Fetch more when reaching the bottom
+                onEndReachedThreshold={0.5} // Fetch when 50% of the list is visible
+            />
         </View>
     );
 };
