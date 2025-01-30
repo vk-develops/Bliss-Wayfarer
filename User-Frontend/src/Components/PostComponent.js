@@ -190,7 +190,7 @@ const PostComponent = ({ navigation, post, isVisible }) => {
 
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate("PostDetailScreen");
+                            navigation.navigate("PostDetailScreen", { post });
                         }}
                     >
                         <Text
