@@ -6,6 +6,8 @@ const width = Dimensions.get("window").width;
 const postWidth = width - 32;
 
 const PostComponent = ({ navigation }) => {
+    // const para =
+
     return (
         <View className="border-b-[0.2px] py-6 border-slate-200">
             <View>

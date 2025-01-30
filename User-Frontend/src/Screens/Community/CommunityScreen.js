@@ -11,7 +11,7 @@ import PostComponent from "../../Components/PostComponent";
 
 const CommunityScreen = ({ navigation }) => {
     return (
-        <View className="flex-1 bg-[#fafafa]">
+        <View className="flex-1 bg-[#fff]">
             <View className="p-4 bg-purple--800 shadow-xl flex items-center justify-between flex-row">
                 <Text
                     className="text-xl text-white pb-1"
@@ -46,18 +46,11 @@ const CommunityScreen = ({ navigation }) => {
             <ScrollView>
                 <View className="p-4">
                     <View className="pb-2">
-                        <Text
-                            className="text-2xl text-headerColor-light"
-                            style={{ fontFamily: "jakartaSemiBold" }}
-                        >
-                            Trending Posts
-                        </Text>
-
-                        <View className="mt-5 relative">
+                        <TouchableOpacity className="mt-5 relative">
                             <TextInput
                                 placeholder="Search for travel posts"
                                 style={{ fontFamily: "jakartaSemiBold" }}
-                                className="h-12 pl-6 text-sm bg-purple--50 border-[1px] border-purple--100 rounded-full"
+                                className="h-12 pl-6 text-sm bg-[#eee] border-[1px] border-purple--100 rounded-full"
                             />
                             <TouchableOpacity className="w-12 h-12 bg-purple--800 rounded-full absolute top-0 right-0 flex items-center justify-center">
                                 <FontAwesome6
@@ -66,7 +59,7 @@ const CommunityScreen = ({ navigation }) => {
                                     color="white"
                                 />
                             </TouchableOpacity>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View>
                         <PostComponent navigation={navigation} />
