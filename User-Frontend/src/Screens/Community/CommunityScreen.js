@@ -6,7 +6,7 @@ import {
     TextInput,
     ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react"; // Added useCallback import
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import PostComponent from "../../Components/PostComponent";
 import { useGetAllPostsQuery } from "../../Redux/Services/communityApiSlice";
@@ -15,15 +15,16 @@ const CommunityScreen = ({ navigation }) => {
     const [posts, setPosts] = useState([]);
     const [lastPostId, setLastPostId] = useState(null);
     const [isFetchingMore, setIsFetchingMore] = useState(false);
+    const [viewableItems, setViewableItems] = useState([]);
 
     const { data, isLoading, error } = useGetAllPostsQuery({
-        limit: 10,
+        limit: 3,
         lastPostId: lastPostId || null,
     });
 
     useEffect(() => {
         if (data?.data?.posts && data.data.posts.length > 0) {
-            console.log("Call made");
+            console.log("call");
             setPosts((prevPosts) => [...prevPosts, ...data.data.posts]);
             setLastPostId(
                 data.data.posts[data.data.posts.length - 1]?._id || null
@@ -34,11 +35,53 @@ const CommunityScreen = ({ navigation }) => {
     const loadMorePosts = () => {
         if (data?.data?.hasMore && !isFetchingMore) {
             setIsFetchingMore(true);
+
             setTimeout(() => {
                 setIsFetchingMore(false);
             }, 1000);
         }
     };
+
+    // Move useCallback outside render
+    const onViewableItemsChanged = useCallback(({ viewableItems: items }) => {
+        setViewableItems(items);
+        console.log(
+            "Viewable items:",
+            items.map((item) => item.item._id)
+        );
+    }, []);
+
+    const viewabilityConfig = useCallback(
+        {
+            itemVisiblePercentThreshold: 50,
+        },
+        []
+    ); // Memoize viewabilityConfig as well
+
+    const renderItem = useCallback(
+        ({ item }) => (
+            <PostComponent
+                post={item}
+                navigation={navigation}
+                isVisible={viewableItems.some(
+                    (viewableItem) => viewableItem.item._id === item._id
+                )}
+            />
+        ),
+        [navigation, viewableItems]
+    ); // Add dependencies
+
+    if (isLoading && posts.length === 0) {
+        return (
+            <View className="flex-1 justify-center items-center">
+                <ActivityIndicator
+                    size="large"
+                    color="purple"
+                />
+                <Text>Loading posts...</Text>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-[#fff]">
@@ -64,12 +107,9 @@ const CommunityScreen = ({ navigation }) => {
                 className="p-4"
                 data={posts}
                 keyExtractor={(item) => item._id}
-                renderItem={({ item }) => (
-                    <PostComponent
-                        post={item}
-                        navigation={navigation}
-                    />
-                )}
+                renderItem={renderItem}
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={viewabilityConfig}
                 ListEmptyComponent={() =>
                     isLoading ? (
                         <Text>Loading posts...</Text>
@@ -85,8 +125,8 @@ const CommunityScreen = ({ navigation }) => {
                         />
                     ) : null
                 }
-                onEndReached={loadMorePosts} // Fetch more when reaching the bottom
-                onEndReachedThreshold={0.5} // Fetch when 50% of the list is visible
+                onEndReached={loadMorePosts}
+                onEndReachedThreshold={0.5}
             />
         </View>
     );

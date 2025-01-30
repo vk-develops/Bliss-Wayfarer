@@ -12,7 +12,7 @@ export const communityApiSlice = apiSlice.injectEndpoints({
         }),
 
         getAllPosts: builder.query({
-            query: ({ limit = 10, lastPostId }) => ({
+            query: ({ limit, lastPostId }) => ({
                 url: `${POST_API}/get-all-posts?limit=${limit}${
                     lastPostId ? `&lastPostId=${lastPostId}` : ""
                 }`,
