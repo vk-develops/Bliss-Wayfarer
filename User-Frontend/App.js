@@ -20,9 +20,9 @@ export default function App() {
     }
 
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-purple--800">
             <Provider store={store}>
-                <StatusBar style="auto" />
+                <StatusBar style="light" />
                 <NavigationContainer>
                     <MainNavigator />
                     <Toast />

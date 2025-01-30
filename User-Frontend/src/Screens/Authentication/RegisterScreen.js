@@ -9,10 +9,7 @@ import { TextInput } from "react-native-gesture-handler";
 const RegisterScreen = ({ navigation }) => {
     return (
         <SafeAreaView>
-            <StatusBar
-                backgroundColor="#5a03d5"
-                style="dark"
-            />
+            <StatusBar style="light" />
             <ScrollView className=" bg-purple--800">
                 <View className="flex items-center  justify-center py-10">
                     <Image
@@ -112,39 +109,7 @@ const RegisterScreen = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View className="flex items-center justify-center flex-row gap-3 mt-5">
-                        <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
-                        <Text
-                            className="text-sm text-[#555]"
-                            style={{ fontFamily: "jakartaMedium" }}
-                        >
-                            Or{" "}
-                        </Text>
-                        <View className="w-24 h-[2px] bg-[#ccc] rounded-full"></View>
-                    </View>
-                    <View className="pb-5">
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            className="bg-[#f3f3f5] border-[#ccc] border flex items-center justify-center py-[14px] rounded-full mt-6"
-                        >
-                            <View className="flex items-center justify-center flex-row gap-5">
-                                <Image
-                                    style={{
-                                        height: 20,
-                                        width: 20,
-                                        resizeMode: "contain",
-                                    }}
-                                    source={Gl}
-                                />
-                                <Text
-                                    className="text-[#555] text-base capitalize"
-                                    style={{ fontFamily: "jakartaMedium" }}
-                                >
-                                    Login with google
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+
                     <View className="flex items-center justify-center flex-row gap-2 my-2">
                         <Text
                             style={{ fontFamily: "jakartaMedium" }}

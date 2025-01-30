@@ -28,7 +28,10 @@ const OnboardingScreen = ({ navigation }) => {
 
     return (
         <View className="flex-1">
-            <StatusBar backgroundColor="#f3f1ff" />
+            <StatusBar
+                backgroundColor="#f3f1ff"
+                style="light"
+            />
             <FlatList
                 ref={slideRef}
                 onMomentumScrollEnd={updateCurrentSlideIndex}
