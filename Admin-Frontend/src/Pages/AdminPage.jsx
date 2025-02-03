@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -13,6 +14,10 @@ const AdminPage = () => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+    const { user } = useSelector((state) => state.auth);
+
+    console.log(user);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -89,9 +94,11 @@ const AdminPage = () => {
                 </aside>
 
                 <main className="flex-grow p-6 bg-gray-100">
-                    <h2 className="text-2xl font-bold text-gray-700 mb-6">
-                        Welcome to the Admin Dashboard
-                    </h2>
+                    {user && (
+                        <h2 className="text-2xl font-bold text-gray-700 mb-6">
+                            Welcome to the Admin Dashboard {user.name}
+                        </h2>
+                    )}
                 </main>
             </div>
         </div>
