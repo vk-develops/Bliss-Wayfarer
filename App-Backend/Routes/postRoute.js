@@ -40,8 +40,8 @@ router.put(
 router.delete("/delete-post/:id", protect, deletePost);
 router.get("/get-related-posts", protect, getRelatedPosts);
 
-router.put("/post/:postId/like", protect, likePost);
-router.post("/post/:postId/comment", protect, commentPost);
+router.put("/:postId/like", protect, likePost);
+router.post("/:postId/comment", protect, commentPost);
 
 router.get("/gem-search", protect, gemSearch);
 

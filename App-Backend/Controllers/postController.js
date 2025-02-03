@@ -335,6 +335,9 @@ const gemSearch = asyncHandler(async (req, res) => {
         );
 
         res.status(200).json({
+            success: true,
+            message: "Posts retrieved",
+            resultCount: paginatedPosts.count,
             results: paginatedPosts,
             pagination: {
                 currentPage: parseInt(page),
@@ -354,7 +357,9 @@ const likePost = asyncHandler(async (req, res) => {
         if (!post) return res.status(404).json({ error: "Post not found" });
 
         if (post.likes.includes(req.user._id)) {
-            post.likes = post.likes.filter((id) => id.toString() !== userId);
+            post.likes = post.likes.filter(
+                (id) => id.toString() !== req.user._id
+            );
             await post.save();
             return res.status(200).json({
                 suceess: true,
@@ -368,7 +373,7 @@ const likePost = asyncHandler(async (req, res) => {
         await post.save();
 
         res.status(200).json({
-            success: false,
+            success: true,
             message: "Post liked",
             likes: post.likes.length,
         });
