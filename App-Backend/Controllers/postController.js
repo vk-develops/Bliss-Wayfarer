@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import User from "../Models/userModel.js";
 import Post from "../Models/postModel.js";
 import { uploadMediaFiles } from "../Helper/uploadMedia.js";
+import { calculateRelevanceScore } from "../Helper/calculateRelevanceScore.js";
 
 // @desc    Get A post
 // @route   POST /api/v1/travel-community/posts/get-a-post/:id
@@ -304,6 +305,42 @@ const deletePost = asyncHandler(async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Post deletion was successfully done",
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const gemSearch = asyncHandler(async (req, res) => {
+    try {
+        const { location, page = 1, limit = 10 } = req.query;
+
+        let posts = await Post.find({
+            location: { $regex: location, $options: "i" },
+        });
+
+        posts = posts.map((post) => ({
+            ...post._doc,
+            relevanceScore: calculateRelevanceScore(post),
+        }));
+
+        posts.sort((a, b) => b.relevanceScore - a.relevanceScore);
+
+        // Apply pagination for lazy loading
+        const startIndex = (page - 1) * limit;
+        const paginatedPosts = posts.slice(
+            startIndex,
+            startIndex + parseInt(limit)
+        );
+
+        res.status(200).json({
+            results: paginatedPosts,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(posts.length / limit),
+                hasMore: startIndex + parseInt(limit) < posts.length,
+            },
         });
     } catch (err) {
         console.log(err.message);

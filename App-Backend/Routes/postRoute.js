@@ -37,5 +37,8 @@ router.put(
 router.delete("/delete-post/:id", protect, deletePost);
 router.get("/get-related-posts", protect, getRelatedPosts);
 
+
+router.get("/gem-search", protect)
+
 //Exports
 export default router;
