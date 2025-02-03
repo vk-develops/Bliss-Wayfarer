@@ -38,10 +38,8 @@ const DisplayVideo = ({ item, isVisible }) => {
         const shouldPlay = isVisible && isFocused;
 
         if (shouldPlay) {
-            console.log("Playing video:", item.url);
             videoRef.current?.playAsync();
         } else {
-            console.log("Pausing video:", item.url);
             videoRef.current?.pauseAsync();
         }
     }, [isVisible, isFocused]);

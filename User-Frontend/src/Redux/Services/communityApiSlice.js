@@ -53,6 +53,14 @@ export const communityApiSlice = apiSlice.injectEndpoints({
                 credentials: "include",
             }),
         }),
+
+        gemSearch: builder.query({
+            query: ({ location, limit = 3, page = 1 }) => ({
+                url: `${POST_API}/gem-search?location=${location}&limit=${limit}&page=${page}`,
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
     }),
     overrideExisting: true,
 });

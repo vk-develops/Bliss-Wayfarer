@@ -45,10 +45,6 @@ const CommunityScreen = ({ navigation }) => {
     // Move useCallback outside render
     const onViewableItemsChanged = useCallback(({ viewableItems: items }) => {
         setViewableItems(items);
-        console.log(
-            "Viewable items:",
-            items.map((item) => item.item._id)
-        );
     }, []);
 
     const viewabilityConfig = useCallback(
@@ -93,6 +89,15 @@ const CommunityScreen = ({ navigation }) => {
                     WayfarerHub
                 </Text>
                 <View className="flex items-center justify-end flex-row gap-5">
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("SearchScreen")}
+                    >
+                        <FontAwesome6
+                            name="bars-staggered"
+                            size={22}
+                            color="white"
+                        />
+                    </TouchableOpacity>
                     <TouchableOpacity>
                         <FontAwesome6
                             name="bars-staggered"
