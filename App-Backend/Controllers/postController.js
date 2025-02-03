@@ -348,6 +348,38 @@ const gemSearch = asyncHandler(async (req, res) => {
     }
 });
 
+const likePost = asyncHandler(async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId);
+        if (!post) return res.status(404).json({ error: "Post not found" });
+
+        if (post.likes.includes(req.user._id)) {
+            post.likes = post.likes.filter((id) => id.toString() !== userId);
+            await post.save();
+            return res
+                .status(200)
+                .json({
+                    suceess: true,
+                    message: "Post unliked",
+                    likes: post.likes.length,
+                });
+        }
+
+        // Else, like the post
+        post.likes.push(req.user._id);
+        await post.save();
+
+        res.status(200).json({
+            success: false,
+            message: "Post liked",
+            likes: post.likes.length,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 export {
     createPost,
     getAllPosts,
@@ -355,4 +387,5 @@ export {
     getRelatedPosts,
     getAPost,
     deletePost,
+    gemSearch,
 };

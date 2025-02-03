@@ -3,6 +3,7 @@ import multer from "multer";
 import {
     createPost,
     deletePost,
+    gemSearch,
     getAllPosts,
     getAPost,
 } from "../Controllers/postController.js";
@@ -37,8 +38,10 @@ router.put(
 router.delete("/delete-post/:id", protect, deletePost);
 router.get("/get-related-posts", protect, getRelatedPosts);
 
+router.put("/post/:postId/like", protect);
+router.put("/post/:postId/comment", protect);
 
-router.get("/gem-search", protect)
+router.get("/gem-search", protect, gemSearch);
 
 //Exports
 export default router;
