@@ -356,13 +356,11 @@ const likePost = asyncHandler(async (req, res) => {
         if (post.likes.includes(req.user._id)) {
             post.likes = post.likes.filter((id) => id.toString() !== userId);
             await post.save();
-            return res
-                .status(200)
-                .json({
-                    suceess: true,
-                    message: "Post unliked",
-                    likes: post.likes.length,
-                });
+            return res.status(200).json({
+                suceess: true,
+                message: "Post unliked",
+                likes: post.likes.length,
+            });
         }
 
         // Else, like the post
@@ -380,6 +378,36 @@ const likePost = asyncHandler(async (req, res) => {
     }
 });
 
+const commentPost = asyncHandler(async (req, res) => {
+    try {
+        const { text } = req.body;
+
+        const post = await Post.findById(req.params.postId);
+        if (!post) return res.status(404).json({ error: "Post not found" });
+
+        if (!text || text.trim() === "")
+            return res.status(400).json({ error: "Comment cannot be empty" });
+
+        const newComment = {
+            user: req.user.id,
+            text,
+            createdAt: new Date(),
+        };
+
+        post.comments.push(newComment);
+        await post.save();
+
+        res.status(201).json({
+            message: "Comment added",
+            comment: newComment,
+            commentsCount: post.comments.length,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 export {
     createPost,
     getAllPosts,
@@ -388,4 +416,6 @@ export {
     getAPost,
     deletePost,
     gemSearch,
+    likePost,
+    commentPost,
 };

@@ -1,11 +1,13 @@
 import express from "express";
 import multer from "multer";
 import {
+    commentPost,
     createPost,
     deletePost,
     gemSearch,
     getAllPosts,
     getAPost,
+    likePost,
 } from "../Controllers/postController.js";
 import { protect } from "../Middlewares/authMiddleware.js";
 import { getRelatedPosts } from "../Controllers/postController.js";
@@ -38,8 +40,8 @@ router.put(
 router.delete("/delete-post/:id", protect, deletePost);
 router.get("/get-related-posts", protect, getRelatedPosts);
 
-router.put("/post/:postId/like", protect);
-router.put("/post/:postId/comment", protect);
+router.put("/post/:postId/like", protect, likePost);
+router.post("/post/:postId/comment", protect, commentPost);
 
 router.get("/gem-search", protect, gemSearch);
 
