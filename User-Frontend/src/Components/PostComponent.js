@@ -139,8 +139,8 @@ const PostComponent = ({ navigation, post, isVisible }) => {
                         {post.title}
                     </Text>
                     <Text
-                        className="text-[15px] text-paraColor-light py-2"
-                        style={{ fontFamily: "jakartaMedium" }}
+                        className="text-[14px] text-paraColor-light py-2"
+                        style={{ fontFamily: "jakartaRegular", lineHeight: 20 }}
                     >
                         {post.caption}
                     </Text>
