@@ -4,6 +4,7 @@ import User from "../Models/userModel.js";
 import Post from "../Models/postModel.js";
 import { uploadMediaFiles } from "../Helper/uploadMedia.js";
 import { calculateRelevanceScore } from "../Helper/calculateRelevanceScore.js";
+import { checkImageForSpam, checkTextForSpam } from "../Helper/checkSpamAi.js";
 
 // @desc    Get A post
 // @route   POST /api/v1/travel-community/posts/get-a-post/:id
@@ -119,6 +120,30 @@ const createPost = asyncHandler(async (req, res) => {
                 }));
             }
 
+            //Check for spam and offensive
+            const firstMediaUrl = media[0]?.url || "";
+
+            // 🚨 Check Title & Caption
+            const titleCheck = await checkTextForSpam(title);
+            const captionCheck = await checkTextForSpam(caption);
+
+            // 🚨 Check Image (Only the first image)
+            const imageCheck = await checkImageForSpam(firstMediaUrl);
+
+            let flagged = false;
+            let flaggedReason = "";
+
+            if (titleCheck.flagged) {
+                flagged = true;
+                flaggedReason = `Title Issue: ${titleCheck.reason}`;
+            } else if (captionCheck.flagged) {
+                flagged = true;
+                flaggedReason = `Caption Issue: ${captionCheck.reason}`;
+            } else if (imageCheck.flagged) {
+                flagged = true;
+                flaggedReason = `Image Issue: ${imageCheck.reason}`;
+            }
+
             // Create the post
             const post = new Post({
                 user: id,
@@ -127,6 +152,8 @@ const createPost = asyncHandler(async (req, res) => {
                 location,
                 category,
                 media,
+                flagged,
+                flaggedReason,
             });
 
             // Save the post

@@ -34,6 +34,8 @@ const postSchema = mongoose.Schema(
                 },
             },
         ],
+        flagged: { type: Boolean, default: false },
+        flaggedReason: { type: String, default: "" },
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,
