@@ -40,13 +40,13 @@ export default defineType({
       name: 'hotels',
       title: 'Hotels',
       type: 'reference',
-      to: [{type: 'travelPlace'}],
+      to: [{type: 'hotel'}],
     }),
     defineField({
       name: 'restaurants',
       title: 'Restaurants',
       type: 'reference',
-      to: [{type: 'travelPlace'}],
+      to: [{type: 'restaurant'}],
     }),
   ],
 
