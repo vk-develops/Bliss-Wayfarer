@@ -24,7 +24,6 @@ const CommunityScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (data?.data?.posts && data.data.posts.length > 0) {
-            console.log("call");
             setPosts((prevPosts) => [...prevPosts, ...data.data.posts]);
             setLastPostId(
                 data.data.posts[data.data.posts.length - 1]?._id || null

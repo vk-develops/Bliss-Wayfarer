@@ -1,8 +1,71 @@
-import { View, Text, ScrollView, TextInput, Button } from "react-native";
+import {
+    View,
+    Text,
+    ScrollView,
+    TextInput,
+    Button,
+    TouchableOpacity,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "../../Components/HomeHeader";
 import useLogout from "../../Hooks/useLogout";
+import { useState } from "react";
+
+const PopularDestinations = () => {
+    return <View></View>;
+};
+
+const Categories = () => {
+    const category = [
+        "Beaches",
+        "Religious Sites",
+        "Amusement & Theme Parks",
+        "Shopping Malls",
+        "Museums",
+    ];
+
+    const [selectedCat, setSelectedCat] = useState(null);
+
+    return (
+        <View className="m-4 pt-2">
+            <Text
+                className="text-2xl text-headerColor-light"
+                style={{ fontFamily: "jakartaBold" }}
+            >
+                Categories
+            </Text>
+            <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                className="mt-2"
+            >
+                {category.map((item) => (
+                    <TouchableOpacity
+                        onPress={() => setSelectedCat(item)}
+                        className={`py-2 px-4 my-2 rounded-full mr-3 ${
+                            item == selectedCat
+                                ? "bg-purple--800 border-[0.5px] border-purple--800"
+                                : "bg-purple--50 border-[0.5px] border-slate-300"
+                        }`}
+                        key={item}
+                    >
+                        <Text
+                            style={{ fontFamily: "jakartaSemiBold" }}
+                            className={`text-xs ${
+                                selectedCat == item
+                                    ? "text-white"
+                                    : "text-headerColor-light"
+                            }`}
+                        >
+                            {item}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+        </View>
+    );
+};
 
 const HomeScreen = () => {
     const { logoutHandler } = useLogout();
@@ -28,18 +91,7 @@ const HomeScreen = () => {
                 </View>
 
                 {/* Categories section */}
-                <View className="m-4 pt-2">
-                    <Text
-                        className="text-2xl text-headerColor-light"
-                        style={{ fontFamily: "jakartaBold" }}
-                    >
-                        Categories
-                    </Text>
-                </View>
-                <Button
-                    onPress={handleLogout}
-                    title="logout"
-                />
+                <Categories />
             </ScrollView>
         </SafeAreaView>
     );

@@ -144,22 +144,26 @@ const PostComponent = ({ navigation, post, isVisible }) => {
                     </Text>
                 </View>
 
-                <View
-                    className="rounded-3xl overflow-hidden mt-3"
-                    style={{ height: width - 16 }}
-                >
-                    <FlatList
-                        ref={flatListRef}
-                        data={post.media || []}
-                        keyExtractor={(item) => item._id || item.url}
-                        renderItem={renderMediaItem}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        pagingEnabled
-                        onViewableItemsChanged={handleMediaViewableItemsChanged}
-                        viewabilityConfig={mediaViewabilityConfig}
-                    />
-                </View>
+                {post.media.length > 0 && (
+                    <View
+                        className="rounded-3xl overflow-hidden mt-3"
+                        style={{ height: width - 16 }}
+                    >
+                        <FlatList
+                            ref={flatListRef}
+                            data={post.media || []}
+                            keyExtractor={(item) => item._id || item.url}
+                            renderItem={renderMediaItem}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            pagingEnabled
+                            onViewableItemsChanged={
+                                handleMediaViewableItemsChanged
+                            }
+                            viewabilityConfig={mediaViewabilityConfig}
+                        />
+                    </View>
+                )}
 
                 <View className="mt-4 flex items-center justify-between flex-row">
                     <View className="flex items-center justify-start flex-row gap-5">
