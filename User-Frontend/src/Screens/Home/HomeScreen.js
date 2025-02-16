@@ -10,10 +10,20 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "../../Components/HomeHeader";
 import useLogout from "../../Hooks/useLogout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPopularDestinations } from "../../../sanityClient";
 
-const PopularDestinations = () => {
-    return <View></View>;
+const PopularDestinations = ({ data }) => {
+    return (
+        <View className="mx-4 pt-2">
+            <Text
+                className="text-2xl text-headerColor-light"
+                style={{ fontFamily: "jakartaBold" }}
+            >
+                Popular Destinations
+            </Text>
+        </View>
+    );
 };
 
 const Categories = () => {
@@ -74,6 +84,22 @@ const HomeScreen = () => {
         await logoutHandler();
     };
 
+    const [popularDestinations, setPopularDestinations] = useState([]);
+
+    const fetchDatas = async () => {
+        try {
+            const travelPlaceData = await getPopularDestinations();
+
+            setPopularDestinations(travelPlaceData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDatas();
+    }, []);
+
     return (
         <SafeAreaView className="flex-1 bg-[#fafafa]">
             <StatusBar
@@ -92,6 +118,9 @@ const HomeScreen = () => {
 
                 {/* Categories section */}
                 <Categories />
+
+                {/* Popular Destination section */}
+                <PopularDestinations data={popularDestinations} />
             </ScrollView>
         </SafeAreaView>
     );
