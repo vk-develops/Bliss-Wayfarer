@@ -3,7 +3,6 @@ import {
     Text,
     ScrollView,
     TextInput,
-    Button,
     TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -12,6 +11,7 @@ import HomeHeader from "../../Components/HomeHeader";
 import useLogout from "../../Hooks/useLogout";
 import { useEffect, useState } from "react";
 import { getPopularDestinations } from "../../../sanityClient";
+import PopularDestinationsComponent from "../../Components/PopularDestinationsComponent";
 
 const PopularDestinations = ({ data }) => {
     return (
@@ -22,6 +22,7 @@ const PopularDestinations = ({ data }) => {
             >
                 Popular Destinations
             </Text>
+            <PopularDestinationsComponent data={data} />
         </View>
     );
 };
