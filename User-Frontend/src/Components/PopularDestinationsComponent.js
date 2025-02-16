@@ -9,7 +9,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { getSanityImageUrl } from "../Helper/sanityImg";
 
-const DestinationCard = ({ item }) => {
+const DestinationCard = ({ item, navigation }) => {
     console.log(item.images);
     const imageUrl = item.images?.[0]
         ? getSanityImageUrl(item.images[0])
@@ -17,7 +17,13 @@ const DestinationCard = ({ item }) => {
 
     return (
         <View className="w-[300px] h-[180px] mr-4 my-4 rounded-2xl overflow-hidden shadow-lg shadow-slate-500">
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate("PopularDestinationDetailScreen", {
+                        data: item,
+                    });
+                }}
+            >
                 <ImageBackground
                     source={{ uri: imageUrl }}
                     className="w-full h-full"
@@ -43,7 +49,7 @@ const DestinationCard = ({ item }) => {
     );
 };
 
-const PopularDestinationsComponent = ({ data }) => {
+const PopularDestinationsComponent = ({ data, navigation }) => {
     return (
         <View>
             {data.length > 0 && (
@@ -53,7 +59,10 @@ const PopularDestinationsComponent = ({ data }) => {
                     keyExtractor={(item) => item._id}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item, index, separators }) => (
-                        <DestinationCard item={item} />
+                        <DestinationCard
+                            item={item}
+                            navigation={navigation}
+                        />
                     )}
                 />
             )}

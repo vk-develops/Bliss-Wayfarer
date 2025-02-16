@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { getPopularDestinations } from "../../../sanityClient";
 import PopularDestinationsComponent from "../../Components/PopularDestinationsComponent";
 
-const PopularDestinations = ({ data }) => {
+const PopularDestinations = ({ data, navigation }) => {
     return (
         <View className="mx-4 pt-2">
             <Text
@@ -22,7 +22,10 @@ const PopularDestinations = ({ data }) => {
             >
                 Popular Destinations
             </Text>
-            <PopularDestinationsComponent data={data} />
+            <PopularDestinationsComponent
+                data={data}
+                navigation={navigation}
+            />
         </View>
     );
 };
@@ -78,7 +81,7 @@ const Categories = () => {
     );
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     const { logoutHandler } = useLogout();
 
     const handleLogout = async () => {
@@ -121,7 +124,10 @@ const HomeScreen = () => {
                 <Categories />
 
                 {/* Popular Destination section */}
-                <PopularDestinations data={popularDestinations} />
+                <PopularDestinations
+                    data={popularDestinations}
+                    navigation={navigation}
+                />
             </ScrollView>
         </SafeAreaView>
     );
