@@ -21,21 +21,26 @@ export async function getPopularDestinations() {
     _id,
     name,
     description,
-    images
+    images,
+    location,
+    starRating
   },
   hotels[]->{
     _id,
     name,
     description,
     images,
-    starRating
+    starRating,
+    location
   },
   restaurants[]->{
     _id,
     name,
     description,
     images,
-    cuisineType
+    cuisineType,
+    starRating,
+    location
   }
 }`);
     return posts;
