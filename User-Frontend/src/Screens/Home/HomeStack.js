@@ -3,9 +3,9 @@ import {
     CardStyleInterpolators,
 } from "@react-navigation/stack";
 import HomeScreen from "./HomeScreen";
-import TopBarNavigator from "../../Navigator/TopBarNavigator";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import PopularDestinationDetailsScreen from "./PopularDestination/PopularDestinationDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -24,8 +24,8 @@ const HomeStack = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="Destination"
-                component={TopBarNavigator}
+                name="PopularDestinationDetailsScreen"
+                component={PopularDestinationDetailsScreen}
                 options={({ route, navigation }) => ({
                     headerStyle: {
                         height: 55,

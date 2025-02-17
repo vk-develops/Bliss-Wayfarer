@@ -70,6 +70,12 @@ export default defineType({
       type: 'number',
       validation: (Rule) => Rule.required().min(1).max(5),
     }),
+    defineField({
+      name: 'travelPlaces',
+      title: 'Travel Places',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'travelPlace'}]}], // Added reference to travelPlace
+    }),
   ],
 
   preview: {

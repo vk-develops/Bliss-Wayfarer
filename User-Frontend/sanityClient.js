@@ -17,27 +17,27 @@ export async function getPopularDestinations() {
   about,
   starRating,
   images,
-  attraction->{
+ attractions[]->{
     _id,
     name,
     description,
     images
   },
-  hotels->{
+  hotels[]->{
     _id,
     name,
     description,
     images,
     starRating
   },
-  restaurants->{
+  restaurants[]->{
     _id,
     name,
     description,
     images,
     cuisineType
   }
-        }`);
+}`);
     return posts;
 }
 

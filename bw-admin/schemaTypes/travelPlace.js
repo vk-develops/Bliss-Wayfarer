@@ -31,22 +31,22 @@ export default defineType({
       validation: (Rule) => Rule.required().min(1).max(5),
     }),
     defineField({
-      name: 'attraction',
-      title: 'attraction',
-      type: 'reference',
-      to: [{type: 'attraction'}],
+      name: 'attractions',
+      title: 'Attractions',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'attraction'}]}], // Changed to an array
     }),
     defineField({
       name: 'hotels',
       title: 'Hotels',
-      type: 'reference',
-      to: [{type: 'hotel'}],
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'hotel'}]}], // Changed to an array
     }),
     defineField({
       name: 'restaurants',
       title: 'Restaurants',
-      type: 'reference',
-      to: [{type: 'restaurant'}],
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'restaurant'}]}], // Changed to an array
     }),
   ],
 

@@ -18,7 +18,7 @@ const DestinationCard = ({ item, navigation }) => {
         <View className="w-[300px] h-[180px] mr-4 my-4 rounded-2xl overflow-hidden shadow-lg shadow-slate-500">
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("Destination", {
+                    navigation.navigate("PopularDestinationDetailsScreen", {
                         data: item,
                         title: item.name,
                     });
