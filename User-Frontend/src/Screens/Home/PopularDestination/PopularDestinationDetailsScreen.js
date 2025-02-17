@@ -10,7 +10,7 @@ import React from "react";
 import { getSanityImageUrl } from "../../../Helper/sanityImg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const AttractionCard = ({ item }) => {
+const PopularCard = ({ item }) => {
     const imageUrl = item.images?.[0]
         ? getSanityImageUrl(item.images[0])
         : null;
@@ -94,25 +94,66 @@ const PopularDestinationDetailsScreen = ({ route }) => {
                 >
                     {data.about}
                 </Text>
-                <View className="pt-4">
-                    <Text
-                        style={{ fontFamily: "jakartaBold" }}
-                        className="text-2xl text-headerColor-light pb-2"
-                    >
-                        Popular Attractions
-                    </Text>
-                    {data.attractions.length > 0 && (
+                {data.attractions.length > 0 && (
+                    <View className="pt-4">
+                        <Text
+                            style={{ fontFamily: "jakartaBold" }}
+                            className="text-2xl text-headerColor-light pb-2"
+                        >
+                            Popular Attractions
+                        </Text>
+
                         <FlatList
                             data={data.attractions}
                             horizontal
                             keyExtractor={(item) => item._id}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
-                                <AttractionCard item={item} />
+                                <PopularCard item={item} />
                             )}
                         />
-                    )}
-                </View>
+                    </View>
+                )}
+                {data.hotels?.length > 0 && (
+                    <View className="pt-4">
+                        <Text
+                            style={{ fontFamily: "jakartaBold" }}
+                            className="text-2xl text-headerColor-light pb-2"
+                        >
+                            Popular Hotels
+                        </Text>
+
+                        <FlatList
+                            data={data.hotels}
+                            horizontal
+                            keyExtractor={(item) => item._id}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item }) => (
+                                <PopularCard item={item} />
+                            )}
+                        />
+                    </View>
+                )}
+                {data.restaurants?.length > 0 && (
+                    <View className="pt-4">
+                        <Text
+                            style={{ fontFamily: "jakartaBold" }}
+                            className="text-2xl text-headerColor-light pb-2"
+                        >
+                            Popular Restaurants
+                        </Text>
+
+                        <FlatList
+                            data={data.restaurants}
+                            horizontal
+                            keyExtractor={(item) => item._id}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item }) => (
+                                <PopularCard item={item} />
+                            )}
+                        />
+                    </View>
+                )}
             </View>
         </ScrollView>
     );
