@@ -36,7 +36,7 @@ const PopularDestinations = ({ data, navigation }) => {
     );
 };
 
-const Categories = ({ onSelectCategory, filteredAttractions }) => {
+const Categories = ({ onSelectCategory, filteredAttractions, navigation }) => {
     const category = [
         "Beaches",
         "Religious Sites",
@@ -217,6 +217,7 @@ const HomeScreen = ({ navigation }) => {
                 <Categories
                     onSelectCategory={setSelectedCategory}
                     filteredAttractions={filteredAttractions}
+                    navigation={navigation}
                 />
 
                 {/* Popular Destination section */}
