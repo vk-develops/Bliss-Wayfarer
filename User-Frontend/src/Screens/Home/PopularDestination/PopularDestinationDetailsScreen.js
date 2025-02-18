@@ -21,7 +21,7 @@ const PopularCard = ({ item, navigation }) => {
         <View className="w-[200px] mr-4 my-4 shadow-lg shadow-slate-200">
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("AttractionDetailScreen", {
+                    navigation.navigate("PlaceDetailScreen", {
                         id: item._id,
                     });
                 }}

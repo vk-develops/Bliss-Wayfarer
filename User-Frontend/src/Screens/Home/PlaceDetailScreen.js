@@ -7,16 +7,16 @@ import {
     Image,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { getAtrractionDetail } from "../../../sanityClient";
+import { getPlaceDetail } from "../../../sanityClient";
 import { getSanityImageUrl } from "../../Helper/sanityImg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const AttractionDetail = ({ route, navigation }) => {
+const PlaceDetailScreen = ({ route, navigation }) => {
     const { id } = route.params;
     const [data, setData] = useState(null);
 
     const fetchData = async (id) => {
-        const data = await getAtrractionDetail(id);
+        const data = await getPlaceDetail(id);
         setData(data[0]);
     };
 
@@ -93,4 +93,4 @@ const AttractionDetail = ({ route, navigation }) => {
     );
 };
 
-export default AttractionDetail;
+export default PlaceDetailScreen;

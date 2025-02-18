@@ -6,7 +6,7 @@ import HomeScreen from "./HomeScreen";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import PopularDestinationDetailsScreen from "./PopularDestination/PopularDestinationDetailsScreen";
-import AttractionDetail from "./AttractionDetail";
+import PlaceDetailScreen from "./PlaceDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -53,8 +53,8 @@ const HomeStack = () => {
                 })}
             />
             <Stack.Screen
-                name="AttractionDetailScreen"
-                component={AttractionDetail}
+                name="PlaceDetailScreen"
+                component={PlaceDetailScreen}
                 options={({ route, navigation }) => ({
                     headerStyle: {
                         height: 55,

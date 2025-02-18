@@ -46,7 +46,7 @@ export async function getPopularDestinations() {
     return posts;
 }
 
-export async function getAtrractionDetail(id) {
+export async function getPlaceDetail(id) {
     const data = await client.fetch(`*[_id == "${id}"]`);
     return data;
 }
