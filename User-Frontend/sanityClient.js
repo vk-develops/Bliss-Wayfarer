@@ -51,4 +51,12 @@ export async function getPlaceDetail(id) {
     return data;
 }
 
+export async function getFilteredAttractions(category) {
+    const data =
+        await client.fetch(`*[_type == "attraction" && category == "${category}"]
+`);
+
+    return data;
+}
+
 export default client;

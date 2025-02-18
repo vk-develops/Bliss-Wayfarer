@@ -4,14 +4,20 @@ import {
     ScrollView,
     TextInput,
     TouchableOpacity,
+    Image,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "../../Components/HomeHeader";
 import useLogout from "../../Hooks/useLogout";
 import { useEffect, useState } from "react";
-import { getPopularDestinations } from "../../../sanityClient";
+import {
+    getFilteredAttractions,
+    getPopularDestinations,
+} from "../../../sanityClient";
 import PopularDestinationsComponent from "../../Components/PopularDestinationsComponent";
+import { getSanityImageUrl } from "../../Helper/sanityImg";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const PopularDestinations = ({ data, navigation }) => {
     return (
@@ -30,7 +36,7 @@ const PopularDestinations = ({ data, navigation }) => {
     );
 };
 
-const Categories = () => {
+const Categories = ({ onSelectCategory, filteredAttractions }) => {
     const category = [
         "Beaches",
         "Religious Sites",
@@ -40,6 +46,11 @@ const Categories = () => {
     ];
 
     const [selectedCat, setSelectedCat] = useState(null);
+
+    const handleCategorySelect = (item) => {
+        setSelectedCat(item);
+        onSelectCategory(item);
+    };
 
     return (
         <View className="m-4 pt-2">
@@ -56,7 +67,7 @@ const Categories = () => {
             >
                 {category.map((item) => (
                     <TouchableOpacity
-                        onPress={() => setSelectedCat(item)}
+                        onPress={() => handleCategorySelect(item)}
                         className={`py-2 px-4 my-2 rounded-full mr-3 ${
                             item == selectedCat
                                 ? "bg-purple--800 border-[0.5px] border-purple--800"
@@ -77,6 +88,72 @@ const Categories = () => {
                     </TouchableOpacity>
                 ))}
             </ScrollView>
+            {filteredAttractions.length > 0 && (
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    className="mt-2"
+                >
+                    {filteredAttractions.map((item) => {
+                        const imageUrl = item.images?.[0]
+                            ? getSanityImageUrl(item.images[0])
+                            : null;
+
+                        return (
+                            <View
+                                key={item._id}
+                                className="w-[200px] mr-4 my-4 shadow-lg shadow-slate-200"
+                            >
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        navigation.navigate(
+                                            "PlaceDetailScreen",
+                                            {
+                                                id: item._id,
+                                            }
+                                        );
+                                    }}
+                                >
+                                    <View>
+                                        <Image
+                                            source={{ uri: imageUrl }}
+                                            className="w-full h-[180px] rounded-2xl overflow-hidden"
+                                        />
+                                    </View>
+                                    <Text
+                                        className="text-base pt-1 text-headerColor-light"
+                                        style={{
+                                            fontFamily: "jakartaSemiBold",
+                                        }}
+                                    >
+                                        {item.name}
+                                    </Text>
+                                    <View className="flex items-center justify-between flex-row">
+                                        <View className="flex items-center justify-start flex-row mt-2">
+                                            <Ionicons
+                                                name="location-sharp"
+                                                size={16}
+                                                color="#555"
+                                            />
+                                            <Text
+                                                style={{
+                                                    fontFamily: "jakartaMedium",
+                                                }}
+                                                className="text-xs text-paraColor-light"
+                                            >
+                                                {item.location.split(",")[0]}
+                                            </Text>
+                                        </View>
+                                        <Text className="mt-2 mr-4 text-xs">
+                                            ⭐ {item.starRating}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        );
+                    })}
+                </ScrollView>
+            )}
         </View>
     );
 };
@@ -89,6 +166,8 @@ const HomeScreen = ({ navigation }) => {
     };
 
     const [popularDestinations, setPopularDestinations] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [filteredAttractions, setFilteredAttractions] = useState([]);
 
     const fetchDatas = async () => {
         try {
@@ -100,9 +179,23 @@ const HomeScreen = ({ navigation }) => {
         }
     };
 
+    const fetchFilteredAttractions = async (category) => {
+        try {
+            if (!category) return;
+            const attractionsData = await getFilteredAttractions(category);
+            setFilteredAttractions(attractionsData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         fetchDatas();
     }, []);
+
+    useEffect(() => {
+        fetchFilteredAttractions(selectedCategory);
+    }, [selectedCategory]);
 
     return (
         <SafeAreaView className="flex-1 bg-[#fafafa]">
@@ -121,7 +214,10 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 {/* Categories section */}
-                <Categories />
+                <Categories
+                    onSelectCategory={setSelectedCategory}
+                    filteredAttractions={filteredAttractions}
+                />
 
                 {/* Popular Destination section */}
                 <PopularDestinations
