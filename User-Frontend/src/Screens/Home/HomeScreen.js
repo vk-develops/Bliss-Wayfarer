@@ -205,13 +205,17 @@ const HomeScreen = ({ navigation }) => {
             />
             <ScrollView>
                 <HomeHeader />
-                <View className="mx-4 -mt-10">
-                    <TextInput
-                        placeholder="Search for places"
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("HomeSearchScreen")}
+                    className="mx-4 -mt-10 py-4 px-5 text-sm bg-purple--100 border-[1px] text-black border-purple--300 rounded-full"
+                >
+                    <Text
                         style={{ fontFamily: "jakartaSemiBold" }}
-                        className="py-4 px-5 text-sm bg-purple--100 border-[1px] border-purple--300 rounded-full"
-                    />
-                </View>
+                        className="text-paraColor-light"
+                    >
+                        Search
+                    </Text>
+                </TouchableOpacity>
 
                 {/* Categories section */}
                 <Categories

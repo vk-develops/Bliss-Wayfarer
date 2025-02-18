@@ -7,17 +7,39 @@ import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import PopularDestinationDetailsScreen from "./PopularDestination/PopularDestinationDetailsScreen";
 import PlaceDetailScreen from "./PlaceDetailScreen";
+import SearchScreen from "./SearchScreen";
 
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
     return (
         <Stack.Navigator
-            screenOptions={{
+            screenOptions={({ navigation }) => ({
                 gestureEnabled: true,
                 gestureDirection: "horizontal",
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            }}
+                headerStyle: {
+                    height: 55,
+                    backgroundColor: "#5a03d5",
+                },
+                headerTitleAlign: "center",
+                headerTitleStyle: {
+                    fontFamily: "jakartaSemiBold",
+                    color: "#fff",
+                },
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack("HomeScreen")}
+                        style={{ paddingLeft: 8 }}
+                    >
+                        <Ionicons
+                            name="chevron-back"
+                            size={24}
+                            color="white"
+                        />
+                    </TouchableOpacity>
+                ),
+            })}
         >
             <Stack.Screen
                 name="HomeScreen"
@@ -27,58 +49,20 @@ const HomeStack = () => {
             <Stack.Screen
                 name="PopularDestinationDetailsScreen"
                 component={PopularDestinationDetailsScreen}
-                options={({ route, navigation }) => ({
-                    headerStyle: {
-                        height: 55,
-                        backgroundColor: "#5a03d5",
-                    },
-                    headerTitleAlign: "center",
-                    headerTitleStyle: {
-                        fontFamily: "jakartaSemiBold",
-                        color: "#fff",
-                    },
-                    headerLeft: () => (
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack("HomeScreen")}
-                            style={{ paddingLeft: 8 }}
-                        >
-                            <Ionicons
-                                name="chevron-back"
-                                size={24}
-                                color="white"
-                            />
-                        </TouchableOpacity>
-                    ),
+                options={({ route }) => ({
                     headerTitle: route.params?.title,
                 })}
             />
             <Stack.Screen
                 name="PlaceDetailScreen"
                 component={PlaceDetailScreen}
-                options={({ route, navigation }) => ({
-                    headerStyle: {
-                        height: 55,
-                        backgroundColor: "#5a03d5",
-                    },
-                    headerTitleAlign: "center",
-                    headerTitleStyle: {
-                        fontFamily: "jakartaSemiBold",
-                        color: "#fff",
-                    },
-                    headerLeft: () => (
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack("HomeScreen")}
-                            style={{ paddingLeft: 8 }}
-                        >
-                            <Ionicons
-                                name="chevron-back"
-                                size={24}
-                                color="white"
-                            />
-                        </TouchableOpacity>
-                    ),
-                    headerTitle: route.params?.title,
-                })}
+            />
+            <Stack.Screen
+                name="HomeSearchScreen"
+                component={SearchScreen}
+                options={{
+                    headerTitle: "Search",
+                }}
             />
         </Stack.Navigator>
     );
