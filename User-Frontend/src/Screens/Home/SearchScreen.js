@@ -18,7 +18,14 @@ const SearchCards = ({ item, navigation }) => {
         : null;
 
     return (
-        <TouchableOpacity className="w-full mr-4 my-4">
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate("PlaceDetailScreen", {
+                    id: item._id,
+                })
+            }
+            className="w-full mr-4 my-4"
+        >
             <Image
                 className="w-full h-[190px] rounded-2xl overflow-hidden shadow-lg"
                 source={{ uri: imageUrl }}
@@ -72,6 +79,7 @@ const SearchScreen = ({ navigation }) => {
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                         placeholder="Search places"
+                        className="w-[50%]"
                     />
                     <TouchableOpacity
                         onPress={onSubmit}
