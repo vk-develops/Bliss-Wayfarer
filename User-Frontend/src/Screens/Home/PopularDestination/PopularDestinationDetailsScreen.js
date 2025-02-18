@@ -10,7 +10,7 @@ import React from "react";
 import { getSanityImageUrl } from "../../../Helper/sanityImg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const PopularCard = ({ item }) => {
+const PopularCard = ({ item, navigation }) => {
     const imageUrl = item.images?.[0]
         ? getSanityImageUrl(item.images[0])
         : null;
@@ -20,12 +20,11 @@ const PopularCard = ({ item }) => {
     return (
         <View className="w-[200px] mr-4 my-4 shadow-lg shadow-slate-200">
             <TouchableOpacity
-            // onPress={() => {
-            //     navigation.navigate("PopularDestinationDetailsScreen", {
-            //         data: item,
-            //         title: item.name,
-            //     });
-            // }}
+                onPress={() => {
+                    navigation.navigate("AttractionDetailScreen", {
+                        id: item._id,
+                    });
+                }}
             >
                 <View>
                     <Image
@@ -34,7 +33,7 @@ const PopularCard = ({ item }) => {
                     />
                 </View>
                 <Text
-                    className="text-xl pt-1 text-headerColor-light"
+                    className="text-base pt-1 text-headerColor-light"
                     style={{ fontFamily: "jakartaSemiBold" }}
                 >
                     {item.name}
@@ -43,24 +42,26 @@ const PopularCard = ({ item }) => {
                     <View className="flex items-center justify-start flex-row mt-2">
                         <Ionicons
                             name="location-sharp"
-                            size={24}
-                            color="black"
+                            size={16}
+                            color="#555"
                         />
                         <Text
                             style={{ fontFamily: "jakartaMedium" }}
-                            className="text-sm text-paraColor-light"
+                            className="text-xs text-paraColor-light"
                         >
                             {item.location.split(",")[0]}
                         </Text>
                     </View>
-                    <Text className="mt-2 mr-4">⭐ {item.starRating}</Text>
+                    <Text className="mt-2 mr-4 text-xs">
+                        ⭐ {item.starRating}
+                    </Text>
                 </View>
             </TouchableOpacity>
         </View>
     );
 };
 
-const PopularDestinationDetailsScreen = ({ route }) => {
+const PopularDestinationDetailsScreen = ({ route, navigation }) => {
     const { data } = route.params;
 
     return (
@@ -109,7 +110,10 @@ const PopularDestinationDetailsScreen = ({ route }) => {
                             keyExtractor={(item) => item._id}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
-                                <PopularCard item={item} />
+                                <PopularCard
+                                    item={item}
+                                    navigation={navigation}
+                                />
                             )}
                         />
                     </View>
@@ -129,7 +133,10 @@ const PopularDestinationDetailsScreen = ({ route }) => {
                             keyExtractor={(item) => item._id}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
-                                <PopularCard item={item} />
+                                <PopularCard
+                                    item={item}
+                                    navigation={navigation}
+                                />
                             )}
                         />
                     </View>
@@ -149,7 +156,10 @@ const PopularDestinationDetailsScreen = ({ route }) => {
                             keyExtractor={(item) => item._id}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
-                                <PopularCard item={item} />
+                                <PopularCard
+                                    item={item}
+                                    navigation={navigation}
+                                />
                             )}
                         />
                     </View>
