@@ -5,20 +5,46 @@ import {
     TouchableOpacity,
     ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { searchAllPlaces } from "../../../sanityClient";
 
 const SearchScreen = () => {
     const searchTabs = ["attractions", "travelPlaces", "hotels", "restaurants"];
 
     const [activeSearchTab, setActiveSearchTab] = useState(searchTabs[0]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [data, setData] = useState([]);
+
+    const onSubmit = async () => {
+        try {
+            if (searchQuery.trim() === "") return;
+
+            const fetchdata = await searchAllPlaces(searchQuery);
+            console.log("Fetched data:", fetchdata); // ✅ Log correct data
+            setData(fetchdata);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        console.log("Updated data:", data);
+    }, [data]);
 
     return (
         <View className="bg-bgColor-light flex-1">
             <View className="shadow-lg shadow-slate-200 pb-5 bg-bgColor-light">
                 <View className="m-4 pl-5 text-sm bg-purple--100 border-[1px] border-purple--300 rounded-full flex items-center justify-between flex-row">
-                    <TextInput placeholder="Search places"></TextInput>
-                    <TouchableOpacity className="h-10 w-10 bg-purple--800 rounded-full flex items-center justify-center">
+                    <TextInput
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                        placeholder="Search places"
+                    />
+                    <TouchableOpacity
+                        onPress={onSubmit}
+                        className="h-10 w-10 bg-purple--800 rounded-full flex items-center justify-center"
+                    >
                         <Ionicons
                             name="location-sharp"
                             size={16}
@@ -51,7 +77,17 @@ const SearchScreen = () => {
                     ))}
                 </View>
             </View>
-            <ScrollView></ScrollView>
+            <ScrollView>
+                {data?.length > 0 ? (
+                    <View>
+                        {data.map((item) => (
+                            <Text className="text-black">{item.name}</Text>
+                        ))}
+                    </View>
+                ) : (
+                    <Text>No results found</Text>
+                )}
+            </ScrollView>
         </View>
     );
 };

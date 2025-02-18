@@ -59,4 +59,18 @@ export async function getFilteredAttractions(category) {
     return data;
 }
 
+export async function searchAllPlaces(searchQuery) {
+    const data =
+        await client.fetch(`*[_type in ["travelPlace", "attraction", "hotel"] && lower(name) match "*${searchQuery}*"]{
+      name,
+      place,
+      location,
+      _id,
+      images,  
+      _type
+  }`);
+
+    return data;
+}
+
 export default client;
