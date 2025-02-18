@@ -35,22 +35,23 @@ const AttractionDetail = ({ route, navigation }) => {
     return (
         <ScrollView className="flex-1 bg-bgColor-light">
             {data ? (
-                <View className="h-64">
-                    <FlatList
-                        data={data.images}
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <Image
-                                source={{ uri: getSanityImageUrl(item) }}
-                                className="w-screen h-full"
-                                resizeMode="cover"
-                            />
-                        )}
-                    />
-
+                <>
+                    <View className="h-64">
+                        <FlatList
+                            data={data.images}
+                            horizontal
+                            pagingEnabled
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <Image
+                                    source={{ uri: getSanityImageUrl(item) }}
+                                    className="w-screen h-full"
+                                    resizeMode="cover"
+                                />
+                            )}
+                        />
+                    </View>
                     <View className="p-4">
                         <Text
                             style={{ fontFamily: "jakartaBold" }}
@@ -64,21 +65,27 @@ const AttractionDetail = ({ route, navigation }) => {
                         >
                             {data.description}
                         </Text>
-                        <View className="flex items-center justify-start flex-row mt-2">
+                        <View className="flex items-center justify-start flex-row mt-4">
                             <Ionicons
                                 name="location-sharp"
-                                size={16}
-                                color="#555"
+                                size={18}
+                                color="#5a03d5"
                             />
                             <Text
                                 style={{ fontFamily: "jakartaMedium" }}
-                                className="text-xs text-paraColor-light"
+                                className="text-base text-purple--800"
                             >
                                 {data.location}
                             </Text>
                         </View>
+                        <Text
+                            className="text-base pt-3"
+                            style={{ fontFamily: "jakartaSemiBold" }}
+                        >
+                            ⭐{data.starRating} {"Rating"}
+                        </Text>
                     </View>
-                </View>
+                </>
             ) : (
                 <ActivityIndicator size={50} />
             )}
