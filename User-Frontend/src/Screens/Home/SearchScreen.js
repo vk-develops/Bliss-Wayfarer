@@ -78,9 +78,9 @@ const SearchScreen = ({ navigation }) => {
                         className="h-10 w-10 bg-purple--800 rounded-full flex items-center justify-center"
                     >
                         <Ionicons
-                            name="location-sharp"
+                            name="search-sharp"
                             size={16}
-                            color="#555"
+                            color="#fff"
                         />
                     </TouchableOpacity>
                 </View>
