@@ -8,13 +8,6 @@ const PostSearchScreen = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeSearchType, setActiveSearchType] = useState(searchTypes[0]);
 
-    const gemSearch = async (e) => {
-        e.preventDefault();
-
-        //
-        // const response = await fetch(``)
-    };
-
     return (
         <View className="flex-1 bg-bgColor-light">
             <View className="shadow-lg shadow-slate-200 pb-2 bg-bgColor-light">
@@ -23,7 +16,7 @@ const PostSearchScreen = () => {
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                         placeholder="Search places"
-                        className="w-[50%]"
+                        className="w-[80%]"
                     />
                     <TouchableOpacity
                         // onPress={onSubmit}

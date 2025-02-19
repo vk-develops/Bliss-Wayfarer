@@ -6,8 +6,9 @@ import {
     TextInput,
     ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState, useCallback } from "react"; // Added useCallback import
+import React, { useEffect, useState, useCallback } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import PostComponent from "../../Components/PostComponent";
 import { useGetAllPostsQuery } from "../../Redux/Services/communityApiSlice";
 
@@ -91,8 +92,8 @@ const CommunityScreen = ({ navigation }) => {
                     <TouchableOpacity
                         onPress={() => navigation.navigate("SearchScreen")}
                     >
-                        <FontAwesome6
-                            name="bars-staggered"
+                        <Ionicons
+                            name="create-outline"
                             size={22}
                             color="white"
                         />
@@ -109,7 +110,7 @@ const CommunityScreen = ({ navigation }) => {
 
             <TouchableOpacity
                 onPress={() => navigation.navigate("SearchScreen")}
-                className="mx-4 mt-5 py-4 px-5 text-sm bg-purple--100 border-[1px] text-black border-purple--300 rounded-full"
+                className="mx-4 my-2 py-4 px-5 text-sm bg-purple--100 border-[1px] text-black border-purple--300 rounded-full"
             >
                 <Text
                     style={{ fontFamily: "jakartaSemiBold" }}

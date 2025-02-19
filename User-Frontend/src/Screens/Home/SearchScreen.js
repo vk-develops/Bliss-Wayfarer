@@ -71,7 +71,7 @@ const SearchScreen = ({ navigation }) => {
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                         placeholder="Search places"
-                        className="w-[50%]"
+                        className="w-[80%]"
                     />
                     <TouchableOpacity
                         onPress={onSubmit}
