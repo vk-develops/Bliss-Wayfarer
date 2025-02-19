@@ -3,11 +3,10 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ScrollView,
     FlatList,
     Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { searchAllPlaces } from "../../../sanityClient";
 import { getSanityImageUrl } from "../../Helper/sanityImg";

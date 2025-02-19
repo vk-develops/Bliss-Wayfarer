@@ -49,7 +49,10 @@ const getAllPosts = asyncHandler(async (req, res) => {
         const limit = parseInt(req.query.limit) || 10; // Number of posts to load at a time
         const lastPostId = req.query.lastPostId; // The last post's ID received from the frontend
 
-        let query = {};
+        let query = {
+            $or: [{ flagged: false }, { flagged: { $exists: false } }], // Include posts where flagged is false OR not present
+        };
+
         if (lastPostId) {
             query._id = { $lt: lastPostId }; // Fetch posts with an ID less than the last fetched post
         }
@@ -87,89 +90,88 @@ const getAllPosts = asyncHandler(async (req, res) => {
 // @access  Private
 const createPost = asyncHandler(async (req, res) => {
     try {
-        const { title, caption, location } = req.body;
-
-        let { category } = req.body;
-
+        const { title, caption, location, category } = req.body;
         const mediaFiles = req.files;
+        const userId = req.user._id;
 
-        //Getting the id from the protect route
-        const id = req.user._id;
-
+        // Validate required fields
         if (!title || !caption || !category || !location) {
             return res.status(400).json({
                 success: false,
-                message:
-                    "Title, caption, location and at least one tag are required",
+                message: "Title, caption, location, and category are required.",
             });
         }
 
-        //Find the user
-        const user = await User.findById({ _id: id });
-
-        if (user) {
-            // Upload media files to Cloudinary
-            let media = [];
-            if (mediaFiles && mediaFiles.length > 0) {
-                const mediaUrls = await uploadMediaFiles(mediaFiles);
-                media = mediaUrls.map((url, index) => ({
-                    url,
-                    mediaType: mediaFiles[index].mimetype.startsWith("image")
-                        ? "Image"
-                        : "Video",
-                }));
-            }
-
-            //Check for spam and offensive
-            const firstMediaUrl = media[0]?.url || "";
-
-            // 🚨 Check Title & Caption
-            const titleCheck = await checkTextForSpam(title);
-            const captionCheck = await checkTextForSpam(caption);
-
-            // 🚨 Check Image (Only the first image)
-            const imageCheck = await checkImageForSpam(firstMediaUrl);
-
-            let flagged = false;
-            let flaggedReason = "";
-
-            if (titleCheck.flagged) {
-                flagged = true;
-                flaggedReason = `Title Issue: ${titleCheck.reason}`;
-            } else if (captionCheck.flagged) {
-                flagged = true;
-                flaggedReason = `Caption Issue: ${captionCheck.reason}`;
-            } else if (imageCheck.flagged) {
-                flagged = true;
-                flaggedReason = `Image Issue: ${imageCheck.reason}`;
-            }
-
-            // Create the post
-            const post = new Post({
-                user: id,
-                title,
-                caption,
-                location,
-                category,
-                media,
-                flagged,
-                flaggedReason,
-            });
-
-            // Save the post
-            await post.save();
-
-            // Return success response
-            return res.status(201).json({ success: true, post });
-        } else {
+        // Find user
+        const user = await User.findById(userId);
+        if (!user) {
             return res.status(400).json({
                 success: false,
-                message: "Not an user cannot create post",
+                message: "User not found. Cannot create post.",
             });
         }
+
+        // Upload media files to Cloudinary (if any)
+        let media = [];
+        if (mediaFiles?.length > 0) {
+            const mediaUrls = await uploadMediaFiles(mediaFiles);
+            media = mediaUrls.map((url, index) => ({
+                url,
+                mediaType: mediaFiles[index].mimetype.startsWith("image")
+                    ? "Image"
+                    : "Video",
+            }));
+        }
+
+        // Check for spam/offensive content
+        const firstMediaUrl = media[0]?.url || "";
+        const [titleCheck, captionCheck, imageCheck] = await Promise.all([
+            checkTextForSpam(title),
+            checkTextForSpam(caption),
+            firstMediaUrl
+                ? checkImageForSpam(firstMediaUrl)
+                : { flagged: false },
+        ]);
+
+        // Determine if flagged
+        let flagged = false;
+        let flaggedReason = "";
+
+        if (titleCheck.flagged) {
+            flagged = true;
+            flaggedReason = `Title Issue: ${titleCheck.reason}`;
+        } else if (captionCheck.flagged) {
+            flagged = true;
+            flaggedReason = `Caption Issue: ${captionCheck.reason}`;
+        } else if (imageCheck.flagged) {
+            flagged = true;
+            flaggedReason = `Image Issue: ${imageCheck.reason}`;
+        }
+
+        // Create post
+        const post = new Post({
+            user: userId,
+            title,
+            caption,
+            location,
+            category,
+            media,
+            flagged,
+            ...(flagged && { flaggedReason }), // Store reason only if flagged
+        });
+
+        // Save post to database
+        await post.save();
+
+        // Return appropriate response
+        return res.status(201).json({
+            success: true,
+            message: flagged ? "Post flagged." : "Post created successfully.",
+            post,
+        });
     } catch (err) {
-        console.log(err.message);
-        res.status(500).json({ success: false, err: err.message });
+        console.error(err.message);
+        return res.status(500).json({ success: false, error: err.message });
     }
 });
 
@@ -345,6 +347,7 @@ const gemSearch = asyncHandler(async (req, res) => {
 
         let posts = await Post.find({
             location: { $regex: location, $options: "i" },
+            $or: [{ flagged: false }, { flagged: { $exists: false } }],
         });
 
         posts = posts.map((post) => ({
@@ -364,7 +367,7 @@ const gemSearch = asyncHandler(async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Posts retrieved",
-            resultCount: paginatedPosts.count,
+            resultCount: paginatedPosts.length,
             results: paginatedPosts,
             pagination: {
                 currentPage: parseInt(page),
