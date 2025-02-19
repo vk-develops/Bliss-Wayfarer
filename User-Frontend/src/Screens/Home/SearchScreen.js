@@ -64,10 +64,6 @@ const SearchScreen = ({ navigation }) => {
         }
     };
 
-    useEffect(() => {
-        console.log("Updated data:", data);
-    }, [data]);
-
     return (
         <View className="bg-bgColor-light flex-1">
             <View className="shadow-lg shadow-slate-200 pb-2 bg-bgColor-light">

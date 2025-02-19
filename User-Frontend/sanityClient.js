@@ -61,7 +61,7 @@ export async function getFilteredAttractions(category) {
 
 export async function searchAllPlaces(searchQuery) {
     const data =
-        await client.fetch(`*[_type in ["attraction", "hotel", "restaurants"] && lower(name) match "*${searchQuery}*"]{
+        await client.fetch(`*[_type in ["attraction", "hotel", "restaurant"] && lower(name) match "*${searchQuery}*"]{
       name,
       place,
       location,
