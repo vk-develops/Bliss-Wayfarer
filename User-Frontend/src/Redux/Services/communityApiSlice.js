@@ -72,4 +72,5 @@ export const {
     useCreatePostMutation,
     useUpdatePostMutation,
     useDeletePostMutation,
+    useGemSearchQuery,
 } = communityApiSlice;

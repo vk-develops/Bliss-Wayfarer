@@ -348,7 +348,7 @@ const gemSearch = asyncHandler(async (req, res) => {
         let posts = await Post.find({
             location: { $regex: location, $options: "i" },
             $or: [{ flagged: false }, { flagged: { $exists: false } }],
-        });
+        }).populate("user", "name email image");
 
         posts = posts.map((post) => ({
             ...post._doc,

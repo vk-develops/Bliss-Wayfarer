@@ -165,6 +165,23 @@ const PostComponent = ({ navigation, post, isVisible }) => {
                     </View>
                 )}
 
+                {post.relevanceScore !== undefined && (
+                    <View className="flex items-start justify-start flex-row gap-1 my-2">
+                        <Text
+                            style={{ fontFamily: "jakartaSemiBold" }}
+                            className="text-paraColor-light text-lg"
+                        >
+                            Relevance Score:{" "}
+                        </Text>
+                        <Text
+                            style={{ fontFamily: "jakartaSemiBold" }}
+                            className="text-purple--800 text-lg"
+                        >
+                            {Number(post.relevanceScore).toFixed(3)}
+                        </Text>
+                    </View>
+                )}
+
                 <View className="mt-4 flex items-center justify-between flex-row">
                     <View className="flex items-center justify-start flex-row gap-5">
                         <TouchableOpacity>
