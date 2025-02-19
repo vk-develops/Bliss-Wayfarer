@@ -107,6 +107,18 @@ const CommunityScreen = ({ navigation }) => {
                 </View>
             </View>
 
+            <TouchableOpacity
+                onPress={() => navigation.navigate("SearchScreen")}
+                className="mx-4 mt-5 py-4 px-5 text-sm bg-purple--100 border-[1px] text-black border-purple--300 rounded-full"
+            >
+                <Text
+                    style={{ fontFamily: "jakartaSemiBold" }}
+                    className="text-paraColor-light"
+                >
+                    Search
+                </Text>
+            </TouchableOpacity>
+
             <FlatList
                 className="p-4"
                 data={posts}

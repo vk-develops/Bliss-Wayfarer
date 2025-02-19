@@ -4,7 +4,7 @@ import {
 } from "@react-navigation/stack";
 import CommunityScreen from "./CommunityScreen";
 import PostDetailScreen from "./PostDetailScreen";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, TouchableOpacity, View } from "react-native";
 import PostSearchScreen from "./PostSearchScreen";
 
@@ -13,11 +13,32 @@ const Stack = createStackNavigator();
 const CommunityStack = () => {
     return (
         <Stack.Navigator
-            screenOptions={{
+            screenOptions={({ navigation }) => ({
                 gestureEnabled: true,
                 gestureDirection: "horizontal",
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            }}
+                headerStyle: {
+                    height: 55,
+                    backgroundColor: "#5a03d5",
+                },
+                headerTitleAlign: "center",
+                headerTitleStyle: {
+                    fontFamily: "jakartaSemiBold",
+                    color: "#fff",
+                },
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack("HomeScreen")}
+                        style={{ paddingLeft: 8 }}
+                    >
+                        <Ionicons
+                            name="chevron-back"
+                            size={24}
+                            color="white"
+                        />
+                    </TouchableOpacity>
+                ),
+            })}
         >
             <Stack.Screen
                 options={{ headerShown: false }}
@@ -25,58 +46,16 @@ const CommunityStack = () => {
                 component={CommunityScreen}
             />
             <Stack.Screen
-                options={({ navigation }) => ({
-                    header: () => {
-                        return (
-                            <View className="p-4 bg-purple--800 flex items-center justify-between flex-row">
-                                <TouchableOpacity
-                                    onPress={() => navigation.goBack()}
-                                >
-                                    <FontAwesome6
-                                        name="bars-staggered"
-                                        size={18}
-                                        color="#fff"
-                                    />
-                                </TouchableOpacity>
-                                <Text
-                                    className="text-lg text-white text-center"
-                                    style={{ fontFamily: "jakartaMedium" }}
-                                >
-                                    Post Details
-                                </Text>
-                                <Text className=" opacity-0">h</Text>
-                            </View>
-                        );
-                    },
-                })}
+                options={{
+                    headerTitle: "Post Details",
+                }}
                 name="PostDetailScreen"
                 component={PostDetailScreen}
             />
             <Stack.Screen
-                options={({ navigation }) => ({
-                    header: () => {
-                        return (
-                            <View className="p-4 bg-purple--800 flex items-center justify-between flex-row">
-                                <TouchableOpacity
-                                    onPress={() => navigation.goBack()}
-                                >
-                                    <FontAwesome6
-                                        name="bars-staggered"
-                                        size={18}
-                                        color="#fff"
-                                    />
-                                </TouchableOpacity>
-                                <Text
-                                    className="text-lg text-white text-center"
-                                    style={{ fontFamily: "jakartaMedium" }}
-                                >
-                                    Search
-                                </Text>
-                                <Text className=" opacity-0">h</Text>
-                            </View>
-                        );
-                    },
-                })}
+                options={{
+                    headerTitle: "Community Search",
+                }}
                 name="SearchScreen"
                 component={PostSearchScreen}
             />

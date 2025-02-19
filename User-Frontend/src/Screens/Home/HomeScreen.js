@@ -102,7 +102,7 @@ const Categories = ({ onSelectCategory, filteredAttractions, navigation }) => {
                         return (
                             <View
                                 key={item._id}
-                                className="w-[200px] mr-4 my-4 shadow-lg shadow-slate-200"
+                                className="w-[180px] mr-4 my-4 shadow-lg shadow-slate-200"
                             >
                                 <TouchableOpacity
                                     onPress={() => {
@@ -117,29 +117,29 @@ const Categories = ({ onSelectCategory, filteredAttractions, navigation }) => {
                                     <View>
                                         <Image
                                             source={{ uri: imageUrl }}
-                                            className="w-full h-[180px] rounded-2xl overflow-hidden"
+                                            className="w-full h-[130px] rounded-2xl overflow-hidden"
                                         />
                                     </View>
                                     <Text
-                                        className="text-base pt-1 text-headerColor-light"
+                                        className="text-sm pt-1 text-headerColor-light capitalize"
                                         style={{
-                                            fontFamily: "jakartaSemiBold",
+                                            fontFamily: "jakartaMedium",
                                         }}
                                     >
                                         {item.name}
                                     </Text>
                                     <View className="flex items-center justify-between flex-row">
-                                        <View className="flex items-center justify-start flex-row mt-2">
+                                        <View className="flex items-center justify-start flex-row mt-3">
                                             <Ionicons
                                                 name="location-sharp"
-                                                size={16}
+                                                size={12}
                                                 color="#555"
                                             />
                                             <Text
                                                 style={{
                                                     fontFamily: "jakartaMedium",
                                                 }}
-                                                className="text-xs text-paraColor-light"
+                                                className="text-[12px] text-paraColor-light"
                                             >
                                                 {item.location.split(",")[0]}
                                             </Text>
