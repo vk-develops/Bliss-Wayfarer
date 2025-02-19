@@ -11,7 +11,7 @@ const client = createClient({
 
 export async function getPopularDestinations() {
     const posts =
-        await client.fetch(`*[_type == "travelPlace" && starRating == 5]{
+        await client.fetch(`*[_type == "travelPlace" && starRating > 4.2]{
               _id,
   name,
   about,
