@@ -6,7 +6,7 @@ import {
     FlatList,
     ActivityIndicator,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
     useGemSearchQuery,
@@ -15,6 +15,19 @@ import {
 } from "../../Redux/Services/communityApiSlice";
 import PostComponent from "../../Components/PostComponent";
 
+const PeopleComponent = ({ item }) => {
+    return (
+        <View className="p-3 mb-2 border-b border-gray-200">
+            <Text style={{ fontFamily: "jakartaSemiBold" }}>
+                {item.name || "Unknown User"}
+            </Text>
+            {item.username && (
+                <Text className="text-paraColor-light">@{item.username}</Text>
+            )}
+        </View>
+    );
+};
+
 const PostSearchScreen = ({ navigation }) => {
     const searchTypes = ["Posts", "Peoples", "Gems"];
 
@@ -22,49 +35,64 @@ const PostSearchScreen = ({ navigation }) => {
     const [activeSearchType, setActiveSearchType] = useState(searchTypes[0]);
     const [results, setResults] = useState([]);
 
-    // Function to get the correct search query based on activeSearchType
-    const getSearchQuery = () => {
-        switch (activeSearchType) {
-            case "Peoples":
-                return usePeopleSearchQuery(
-                    { query: searchQuery, limit: 10, page: 1 },
-                    { skip: !searchQuery }
-                );
-            case "Gems":
-                return useGemSearchQuery(
-                    { location: searchQuery, limit: 10, page: 1 },
-                    { skip: !searchQuery }
-                );
-            case "Posts":
-            default:
-                return usePostsSearchQuery(
-                    { query: searchQuery, limit: 10, page: 1 },
-                    { skip: !searchQuery }
-                );
-        }
-    };
+    // Use hooks directly at the top level
+    const postsQuery = usePostsSearchQuery(
+        { location: searchQuery, limit: 10, page: 1 },
+        { skip: !searchQuery || activeSearchType !== "Posts" }
+    );
+    const peopleQuery = usePeopleSearchQuery(
+        { query: searchQuery },
+        { skip: !searchQuery || activeSearchType !== "Peoples" }
+    );
+    const gemsQuery = useGemSearchQuery(
+        { location: searchQuery, limit: 10, page: 1 },
+        { skip: !searchQuery || activeSearchType !== "Gems" }
+    );
 
-    const { data, isLoading, isError } = getSearchQuery();
+    // Determine which query to use
+    const { data, isLoading, isError } =
+        activeSearchType === "Posts"
+            ? postsQuery
+            : activeSearchType === "Peoples"
+            ? peopleQuery
+            : gemsQuery;
 
     useEffect(() => {
+        setResults([]); // Clear results when changing search type
         if (data) {
             setResults(data.results || []);
         }
-    }, [data]);
+    }, [data, activeSearchType]); // Add activeSearchType to dependency array
 
     const onSubmit = () => {
         if (!searchQuery.trim()) return;
     };
 
     const renderItem = useCallback(
-        ({ item }) => (
-            <PostComponent
-                post={item}
-                navigation={navigation}
-            />
-        ),
-        [navigation]
+        ({ item }) => {
+            // Check if the item has the required properties before rendering
+            if (activeSearchType === "Peoples") {
+                return <PeopleComponent item={item} />;
+            } else if (item && Object.keys(item).length > 0) {
+                // Only render PostComponent if item is valid
+                return (
+                    <PostComponent
+                        post={item}
+                        navigation={navigation}
+                    />
+                );
+            } else {
+                // Fallback for invalid items
+                return <Text>Invalid item data</Text>;
+            }
+        },
+        [navigation, activeSearchType]
     );
+
+    const handleSearchTypeChange = (newType) => {
+        setResults([]); // Clear results immediately
+        setActiveSearchType(newType);
+    };
 
     return (
         <View className="flex-1 bg-bgColor-light">
@@ -91,7 +119,7 @@ const PostSearchScreen = ({ navigation }) => {
                     {searchTypes.map((item) => (
                         <TouchableOpacity
                             key={item}
-                            onPress={() => setActiveSearchType(item)}
+                            onPress={() => handleSearchTypeChange(item)}
                             className={`px-5 py-[5px] rounded-full ${
                                 activeSearchType == item ? "bg-purple--800" : ""
                             }`}
