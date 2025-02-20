@@ -62,15 +62,15 @@ export const communityApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         peopleSearch: builder.query({
-            query: ({ location, limit = 3, page = 1 }) => ({
-                url: `${POST_API}/gem-search?location=${location}&limit=${limit}&page=${page}`,
+            query: ({ query }) => ({
+                url: `${POST_API}/people-search?query=${query}`,
                 method: "GET",
                 credentials: "include",
             }),
         }),
         postsSearch: builder.query({
             query: ({ location, limit = 3, page = 1 }) => ({
-                url: `${POST_API}/gem-search?location=${location}&limit=${limit}&page=${page}`,
+                url: `${POST_API}/posts-search?location=${location}&limit=${limit}&page=${page}`,
                 method: "GET",
                 credentials: "include",
             }),
