@@ -61,6 +61,20 @@ export const communityApiSlice = apiSlice.injectEndpoints({
                 credentials: "include",
             }),
         }),
+        peopleSearch: builder.query({
+            query: ({ location, limit = 3, page = 1 }) => ({
+                url: `${POST_API}/gem-search?location=${location}&limit=${limit}&page=${page}`,
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
+        postsSearch: builder.query({
+            query: ({ location, limit = 3, page = 1 }) => ({
+                url: `${POST_API}/gem-search?location=${location}&limit=${limit}&page=${page}`,
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
     }),
     overrideExisting: true,
 });
@@ -73,4 +87,6 @@ export const {
     useUpdatePostMutation,
     useDeletePostMutation,
     useGemSearchQuery,
+    usePeopleSearchQuery,
+    usePostsSearchQuery,
 } = communityApiSlice;

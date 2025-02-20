@@ -8,6 +8,8 @@ import {
     getAllPosts,
     getAPost,
     likePost,
+    peopleSearch,
+    searchPosts,
 } from "../Controllers/postController.js";
 import { protect } from "../Middlewares/authMiddleware.js";
 import { getRelatedPosts } from "../Controllers/postController.js";
@@ -44,6 +46,8 @@ router.put("/:postId/like", protect, likePost);
 router.post("/:postId/comment", protect, commentPost);
 
 router.get("/gem-search", protect, gemSearch);
+router.get("/people-search", protect, peopleSearch);
+router.get("/posts-search", protect, searchPosts);
 
 //Exports
 export default router;

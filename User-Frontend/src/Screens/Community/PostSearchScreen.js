@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useGemSearchQuery } from "../../Redux/Services/communityApiSlice";
+import {
+    useGemSearchQuery,
+    usePeopleSearchQuery,
+    usePostsSearchQuery,
+} from "../../Redux/Services/communityApiSlice";
 import PostComponent from "../../Components/PostComponent";
 
 const PostSearchScreen = ({ navigation }) => {
@@ -18,19 +22,33 @@ const PostSearchScreen = ({ navigation }) => {
     const [activeSearchType, setActiveSearchType] = useState(searchTypes[0]);
     const [results, setResults] = useState([]);
 
-    const { data, isLoading, isError } = useGemSearchQuery(
-        {
-            location: searchQuery,
-            limit: 10,
-            page: 1,
-        },
-        { skip: !searchQuery }
-    );
+    // Function to get the correct search query based on activeSearchType
+    const getSearchQuery = () => {
+        switch (activeSearchType) {
+            case "Peoples":
+                return usePeopleSearchQuery(
+                    { query: searchQuery, limit: 10, page: 1 },
+                    { skip: !searchQuery }
+                );
+            case "Gems":
+                return useGemSearchQuery(
+                    { location: searchQuery, limit: 10, page: 1 },
+                    { skip: !searchQuery }
+                );
+            case "Posts":
+            default:
+                return usePostsSearchQuery(
+                    { query: searchQuery, limit: 10, page: 1 },
+                    { skip: !searchQuery }
+                );
+        }
+    };
+
+    const { data, isLoading, isError } = getSearchQuery();
 
     useEffect(() => {
         if (data) {
             setResults(data.results || []);
-            console.log(data.results[0].relevanceScore);
         }
     }, [data]);
 

@@ -443,6 +443,73 @@ const commentPost = asyncHandler(async (req, res) => {
     }
 });
 
+const peopleSearch = asyncHandler(async (req, res) => {
+    try {
+        const { query } = req.query;
+
+        if (!query) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Search query is required" });
+        }
+
+        const regexQuery = new RegExp(query, "i"); // Case-insensitive search
+
+        // Find matching people
+        const people = await User.find({
+            $or: [{ name: regexQuery }],
+        });
+
+        res.json({ success: true, results: people });
+    } catch (error) {
+        console.error("Error searching people:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+const searchPosts = asyncHandler(async (req, res) => {
+    try {
+        const { location, page = 1, limit = 10 } = req.query;
+
+        if (!location) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Location is required" });
+        }
+
+        const regexLocation = new RegExp(location, "i"); // Case-insensitive search
+
+        // Find matching posts (excluding flagged ones)
+        const totalPosts = await Post.countDocuments({
+            location: regexLocation,
+            $or: [{ flagged: false }, { flagged: { $exists: false } }], // Exclude flagged posts
+        });
+
+        const posts = await Post.find({
+            location: regexLocation,
+            $or: [{ flagged: false }, { flagged: { $exists: false } }],
+        })
+            .populate("user", "name email image") // Populate user details
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
+        res.status(200).json({
+            success: true,
+            message: "Posts retrieved successfully",
+            resultCount: posts.length,
+            results: posts,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalPosts / limit),
+                hasMore: (page - 1) * limit + posts.length < totalPosts,
+            },
+        });
+    } catch (error) {
+        console.error("Error searching posts:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
 export {
     createPost,
     getAllPosts,
@@ -453,4 +520,6 @@ export {
     gemSearch,
     likePost,
     commentPost,
+    peopleSearch,
+    searchPosts,
 };
