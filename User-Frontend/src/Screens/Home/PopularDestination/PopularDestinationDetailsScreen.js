@@ -71,6 +71,7 @@ const PopularDestinationDetailsScreen = ({ route, navigation }) => {
                     data={data.images}
                     horizontal
                     pagingEnabled
+                    scrollEnabled={true}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (

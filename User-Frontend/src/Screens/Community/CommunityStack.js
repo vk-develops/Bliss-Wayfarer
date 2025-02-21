@@ -7,6 +7,7 @@ import PostDetailScreen from "./PostDetailScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, TouchableOpacity, View } from "react-native";
 import PostSearchScreen from "./PostSearchScreen";
+import CreatePostScreen from "./CreatePostScreen";
 
 const Stack = createStackNavigator();
 
@@ -14,9 +15,6 @@ const CommunityStack = () => {
     return (
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
-                gestureEnabled: true,
-                gestureDirection: "horizontal",
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                 headerStyle: {
                     height: 55,
                     backgroundColor: "#5a03d5",
@@ -58,6 +56,13 @@ const CommunityStack = () => {
                 }}
                 name="SearchScreen"
                 component={PostSearchScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: "Create Post",
+                }}
+                name="CreatePostScreen"
+                component={CreatePostScreen}
             />
         </Stack.Navigator>
     );

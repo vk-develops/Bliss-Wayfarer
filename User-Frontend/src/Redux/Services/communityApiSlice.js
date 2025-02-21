@@ -22,12 +22,15 @@ export const communityApiSlice = apiSlice.injectEndpoints({
         }),
 
         createPost: builder.mutation({
-            query: (data) => ({
-                url: `${POST_API}/create-post`,
-                method: "POST",
-                credentials: "include",
-                body: data,
-            }),
+            query: (data) => {
+                console.log("Sending data to server:", data); // Debugging log
+                return {
+                    url: `${POST_API}/create-post`,
+                    method: "POST",
+                    credentials: "include",
+                    body: data, // No need to set Content-Type manually
+                };
+            },
         }),
 
         updatePost: builder.mutation({

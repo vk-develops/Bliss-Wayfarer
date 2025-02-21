@@ -15,9 +15,6 @@ const HomeStack = () => {
     return (
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
-                gestureEnabled: true,
-                gestureDirection: "horizontal",
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                 headerStyle: {
                     height: 55,
                     backgroundColor: "#5a03d5",

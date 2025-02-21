@@ -40,6 +40,7 @@ const PlaceDetailScreen = ({ route, navigation }) => {
                         <FlatList
                             data={data.images}
                             horizontal
+                            scrollEnabled
                             pagingEnabled
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(item, index) => index.toString()}

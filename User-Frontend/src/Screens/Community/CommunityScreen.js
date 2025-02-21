@@ -90,7 +90,7 @@ const CommunityScreen = ({ navigation }) => {
                 </Text>
                 <View className="flex items-center justify-end flex-row gap-5">
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("SearchScreen")}
+                        onPress={() => navigation.navigate("CreatePostScreen")}
                     >
                         <Ionicons
                             name="create-outline"
