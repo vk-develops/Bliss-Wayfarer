@@ -1,10 +1,15 @@
 import express from "express";
-import { protect } from "../Middlewares/authMiddleware.js";
+import {
+    createItinerary,
+    updateItinerary,
+} from "../../Controllers/ItineraryController.js";
+import { protect } from "../../Middlewares/authMiddleware.js";
 
 // router init
 const router = express.Router();
 
-router.post("/create-itinerary", protect);
+router.post("/create-itinerary", protect, createItinerary);
+router.put("/update-itinerary/:id/:dayNumber", protect, updateItinerary);
 
 export default router;
 

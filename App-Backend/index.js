@@ -10,6 +10,8 @@ import adminTravelRoute from "./Routes/Admin/adminTravelRoute.js";
 import postRoute from "./Routes/postRoute.js";
 import adminPostRoute from "./Routes/Admin/adminPostRoute.js";
 import friendsRoute from "./Routes/friendsRoute.js";
+import itineraryRoute from "./Routes/Itinerary/itineraryRoute.js";
+import activityRoute from "./Routes/Itinerary/ActivityRoute.js";
 
 //App init
 dotenv.config();
@@ -45,6 +47,8 @@ app.use("/api/v1/users/auth", authRoute);
 app.use("/api/v1/users/account", accountRoute);
 app.use("/api/v1/users/travel-community/posts", postRoute);
 app.use("/api/v1/users/travel-community/friends", friendsRoute);
+app.use("/api/v1/users/itinerary-management", itineraryRoute);
+app.use("/api/v1/users/itinerary-management/itinerary", activityRoute);
 
 //Admin Api's
 app.use("/api/v1/admin/travel-places/attractions", adminTravelRoute);

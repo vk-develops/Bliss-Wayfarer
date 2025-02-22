@@ -6,7 +6,7 @@ import {
 import Itinerary from "../Models/Itinerary/itineraryModel.js";
 
 // @desc    Create Post
-// @route   POST /api/v1/itinerary-management/itinerary/create-itinerary
+// @route   POST /api/v1/itinerary-management/create-itinerary
 // @access  Private
 
 const createItinerary = asyncHandler(async (req, res) => {
@@ -63,3 +63,91 @@ const createItinerary = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, err: err.message });
     }
 });
+
+// @desc    Create Post
+// @route   POST /api/v1/itinerary-management/update-itinerary/:id
+// @access  Private
+
+const updateItinerary = asyncHandler(async (req, res) => {
+    try {
+        const { timeSlot, activity } = req.body;
+        const { id, dayNumber } = req.params;
+
+        const itinerary = await Itinerary.findById(id);
+        if (!itinerary) {
+            return res.status(404).json({ error: "Itinerary not found" });
+        }
+
+        // Validate time slot
+        if (!["morning", "afternoon", "evening"].includes(timeSlot)) {
+            return res.status(400).json({ error: "Invalid time slot" });
+        }
+
+        // Validate activity data
+        if (
+            !activity.name ||
+            !activity.startTime ||
+            !activity.endTime ||
+            !activity.reference
+        ) {
+            return res
+                .status(400)
+                .json({ error: "Missing required activity fields" });
+        }
+
+        const isAdmin = await Itinerary.findOne({
+            _id: id,
+            admin: req.user._id,
+        });
+
+        if (!isAdmin) {
+            return res.status(400).json({
+                success: "false",
+                message: "You are not the admin of this itinerary",
+            });
+        }
+
+        // Find the day plan
+        const dayPlan = itinerary.dayPlans.find(
+            (day) => day.dayNumber === parseInt(dayNumber)
+        );
+        if (!dayPlan) {
+            return res.status(404).json({ error: "Day plan not found" });
+        }
+
+        // Find or create time slot
+        let timeSlotObj = dayPlan.timeSlots.find(
+            (slot) => slot.slot === timeSlot
+        );
+        if (!timeSlotObj) {
+            dayPlan.timeSlots.push({ slot: timeSlot, activities: [] });
+            timeSlotObj = dayPlan.timeSlots[dayPlan.timeSlots.length - 1];
+        }
+
+        // Add new activity
+        timeSlotObj.activities.push({
+            name: activity.name,
+            startTime: activity.startTime,
+            endTime: activity.endTime,
+            reference: {
+                type: activity.reference.type,
+                referenceId: activity.reference.referenceId,
+            },
+            notes: activity.notes,
+            estimatedCost: activity.estimatedCost,
+        });
+
+        await itinerary.save();
+
+        res.status(200).json({
+            success: true,
+            message: "update success",
+            data: itinerary,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+export { createItinerary, updateItinerary };
