@@ -82,19 +82,23 @@ const activitySchema = new mongoose.Schema({
         required: true,
     },
     // Reference to either a Sanity place or a community post
-    reference: {
-        type: {
-            type: String,
-            enum: ["sanity", "post"],
-            required: true,
+    references: [
+        {
+            type: {
+                type: String,
+                enum: ["sanity", "post"],
+                required: true,
+            },
+            referenceId: {
+                type: String,
+                required: true,
+            },
+            referenceType: {
+                type: String, // For Sanity: 'attraction', 'restaurant', 'hotel'
+                required: true,
+            },
         },
-        // If type is 'sanity', this will be the Sanity document ID
-        // If type is 'post', this will be the MongoDB ObjectId of the community post
-        referenceId: {
-            type: String,
-            required: true,
-        },
-    },
+    ],
     notes: String,
     estimatedCost: Number,
 });

@@ -5,6 +5,67 @@ import {
 } from "../Helper/itineraryHelpers.js";
 import Itinerary from "../Models/Itinerary/itineraryModel.js";
 
+const getAllItineraries = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const itineraries = await Itinerary.find({
+            $or: [{ admin: userId }, { tripFriends: userId }],
+        })
+            .populate("admin tripFriends", "name email")
+            .populate("comments.user", "name email");
+
+        res.status(200).json({
+            success: true,
+            message: "Itineraries fetched successfully",
+            data: itineraries,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const getAItinerary = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const userId = req.user._id;
+
+        // Find itinerary and populate references
+        const itinerary = await Itinerary.findById(id)
+            .populate("admin tripFriends", "name email")
+            .populate("comments.user", "name email");
+
+        if (!itinerary) {
+            return res.status(404).json({ message: "Itinerary not found" });
+        }
+
+        // Check if the user is either the admin or a trip friend
+        const isAuthorized =
+            itinerary.admin._id.toString() === userId ||
+            itinerary.tripFriends.some(
+                (friend) => friend._id.toString() === userId
+            );
+
+        if (!isAuthorized) {
+            return res.status(403).json({
+                message:
+                    "Access denied. You are not a member of this itinerary.",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Itinerary fetched",
+            data: itinerary,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 // @desc    Create Post
 // @route   POST /api/v1/itinerary-management/create-itinerary
 // @access  Private
@@ -150,4 +211,4 @@ const updateItinerary = asyncHandler(async (req, res) => {
     }
 });
 
-export { createItinerary, updateItinerary };
+export { getAItinerary, getAllItineraries, createItinerary, updateItinerary };

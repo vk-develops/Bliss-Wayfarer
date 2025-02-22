@@ -1,6 +1,8 @@
 import express from "express";
 import {
     createItinerary,
+    getAItinerary,
+    getAllItineraries,
     updateItinerary,
 } from "../../Controllers/ItineraryController.js";
 import { protect } from "../../Middlewares/authMiddleware.js";
@@ -8,6 +10,8 @@ import { protect } from "../../Middlewares/authMiddleware.js";
 // router init
 const router = express.Router();
 
+router.get("/get-all-itineraries", protect, getAllItineraries);
+router.get("/get-a-itinerary/:id", protect, getAItinerary);
 router.post("/create-itinerary", protect, createItinerary);
 router.put("/update-itinerary/:id/:dayNumber", protect, updateItinerary);
 
