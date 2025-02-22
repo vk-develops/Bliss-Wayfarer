@@ -59,7 +59,17 @@ const addActivity = asyncHandler(async (req, res) => {
                 .json({ error: "Time conflict with existing activity" });
         }
 
-        timeSlotObj.activities.push(activity);
+        // Add the activity with multiple references
+        const newActivity = {
+            name: activity.name,
+            startTime: activity.startTime,
+            endTime: activity.endTime,
+            references: activity.references || [], // Array of references
+            notes: activity.notes,
+            estimatedCost: activity.estimatedCost,
+        };
+
+        timeSlotObj.activities.push(newActivity);
         await itinerary.save();
 
         res.status(200).json({
@@ -76,7 +86,7 @@ const addActivity = asyncHandler(async (req, res) => {
 const updateActivity = asyncHandler(async (req, res) => {
     try {
         const { id, dayNumber, activityId } = req.params;
-        const { timeSlot, updatedActivity } = req.body;
+        const { timeSlot, activity } = req.body;
 
         const itinerary = await Itinerary.findById(id);
         if (!itinerary) {
@@ -102,28 +112,60 @@ const updateActivity = asyncHandler(async (req, res) => {
             return res.status(404).json({ error: "Day plan not found" });
         }
 
-        const timeSlotObj = dayPlan.timeSlots.find(
-            (slot) => slot.slot === timeSlot
-        );
-        if (!timeSlotObj) {
-            return res.status(404).json({ error: "Time slot not found" });
+        // Find the activity in any time slot
+        let foundActivity = null;
+        let sourceTimeSlot = null;
+        let targetTimeSlot = null;
+
+        // Find the current location of the activity
+        for (const slot of dayPlan.timeSlots) {
+            const found = slot.activities.find(
+                (act) => act._id.toString() === activityId
+            );
+            if (found) {
+                foundActivity = found;
+                sourceTimeSlot = slot;
+                break;
+            }
         }
 
-        const activityIndex = timeSlotObj.activities.findIndex(
-            (activity) => activity._id.toString() === activityId
-        );
-
-        if (activityIndex === -1) {
+        if (!foundActivity) {
             return res.status(404).json({ error: "Activity not found" });
         }
 
-        // Update the activity
-        timeSlotObj.activities[activityIndex] = {
-            ...timeSlotObj.activities[activityIndex],
-            ...updatedActivity,
+        // Find target time slot
+        targetTimeSlot = dayPlan.timeSlots.find(
+            (slot) => slot.slot === timeSlot
+        );
+        if (!targetTimeSlot) {
+            return res
+                .status(404)
+                .json({ error: "Target time slot not found" });
+        }
+
+        // Create updated activity object with multiple references
+        const updatedActivity = {
+            ...foundActivity.toObject(),
+            ...activity,
+            references: activity.references || foundActivity.references, // Keep existing references if not updated
+            _id: foundActivity._id,
         };
 
+        // Update or move the activity
+        if (sourceTimeSlot.slot !== targetTimeSlot.slot) {
+            sourceTimeSlot.activities = sourceTimeSlot.activities.filter(
+                (act) => act._id.toString() !== activityId
+            );
+            targetTimeSlot.activities.push(updatedActivity);
+        } else {
+            const activityIndex = sourceTimeSlot.activities.findIndex(
+                (act) => act._id.toString() === activityId
+            );
+            sourceTimeSlot.activities[activityIndex] = updatedActivity;
+        }
+
         await itinerary.save();
+
         res.status(200).json({
             success: true,
             message: "Activity updated successfully",
