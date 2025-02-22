@@ -4,6 +4,8 @@ import { protect } from "../Middlewares/authMiddleware.js";
 // router init
 const router = express.Router();
 
+router.post("/create-itinerary", protect);
+
 export default router;
 
 // Basic CRUD operations
