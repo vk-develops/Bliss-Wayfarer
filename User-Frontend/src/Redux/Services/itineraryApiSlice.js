@@ -1,4 +1,4 @@
-import { ITINERARY_API, POST_API } from "../constants";
+import { ITINERARY_API } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const itineraryApiSlice = apiSlice.injectEndpoints({
