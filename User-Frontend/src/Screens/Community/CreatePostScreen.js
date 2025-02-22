@@ -244,14 +244,6 @@ const CreatePostScreen = ({ navigation }) => {
                             Pick Image
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        className="bg-blue-500 p-3 rounded-lg flex-1 items-center"
-                        onPress={takePicture}
-                    >
-                        <Text className="text-white font-medium">
-                            Pick Video
-                        </Text>
-                    </TouchableOpacity>
                 </View>
                 {media?.length > 0 && (
                     <ScrollView
