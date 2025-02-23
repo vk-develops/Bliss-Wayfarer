@@ -41,11 +41,10 @@ const getAItinerary = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: "Itinerary not found" });
         }
 
-        // Check if the user is either the admin or a trip friend
         const isAuthorized =
-            itinerary.admin._id.toString() === userId ||
+            itinerary.admin._id.toString() === userId.toString() ||
             itinerary.tripFriends.some(
-                (friend) => friend._id.toString() === userId
+                (friend) => friend._id.toString() === userId.toString()
             );
 
         if (!isAuthorized) {

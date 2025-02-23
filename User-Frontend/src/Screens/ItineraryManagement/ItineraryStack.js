@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ItineraryScreen from "./ItineraryScreen";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ItineraryDetailsScreen from "./ItineraryDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -18,23 +19,30 @@ const ItineraryStack = () => {
                     fontFamily: "jakartaSemiBold",
                     color: "#fff",
                 },
-                // headerLeft: () => (
-                //     <TouchableOpacity
-                //         onPress={() => navigation.goBack("HomeScreen")}
-                //         style={{ paddingLeft: 8 }}
-                //     >
-                //         <Ionicons
-                //             name="chevron-back"
-                //             size={24}
-                //             color="white"
-                //         />
-                //     </TouchableOpacity>
-                // ),
             })}
         >
             <Stack.Screen
                 name="ItineraryScreen"
                 component={ItineraryScreen}
+                options={{ headerTitle: "Itinerary Management" }}
+            />
+            <Stack.Screen
+                options={({ navigation }) => ({
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack("HomeScreen")}
+                            style={{ paddingLeft: 8 }}
+                        >
+                            <Ionicons
+                                name="chevron-back"
+                                size={24}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+                name="ItineraryDetailsScreen"
+                component={ItineraryDetailsScreen}
             />
         </Stack.Navigator>
     );

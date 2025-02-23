@@ -9,7 +9,7 @@ import React from "react";
 import { useGetAllItinerariesQuery } from "../../Redux/Services/itineraryApiSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const ItineraryScreen = () => {
+const ItineraryScreen = ({ navigation }) => {
     const { data, isLoading, isError } = useGetAllItinerariesQuery();
 
     if (isError) {
@@ -26,15 +26,26 @@ const ItineraryScreen = () => {
                 {data?.data?.length > 0 ? (
                     data.data.map((iti) => (
                         <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("ItineraryDetailsScreen", {
+                                    id: iti._id,
+                                })
+                            }
                             className="bg-white p-3 rounded-lg my-2 shadow-md shadow-slate-100"
                             key={iti._id}
                         >
-                            <View>
+                            <View className="flex items-center justify-between flex-row">
                                 <Text
                                     style={{ fontFamily: "jakartaBold" }}
                                     className="text-headerColor-light text-xl"
                                 >
                                     {iti.tripName}
+                                </Text>
+                                <Text
+                                    style={{ fontFamily: "jakartaSemiBold" }}
+                                    className="text-purple--800 text-sm"
+                                >
+                                    {iti.status}
                                 </Text>
                             </View>
                             <View className="flex items-center justify-start flex-row mt-3">
