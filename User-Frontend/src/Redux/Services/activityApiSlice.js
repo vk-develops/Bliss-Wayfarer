@@ -1,7 +1,7 @@
 import { ITINERARY_API } from "../constants";
 import { apiSlice } from "./apiSlice";
 
-export const itineraryApiSlice = apiSlice.injectEndpoints({
+export const activityApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         // getAItinerary: builder.query({
         //     query: ({ id }) => ({
@@ -58,4 +58,4 @@ export const {
     useCreateActivityMutation,
     useUpdateActivityMutation,
     useDeleteActivityMutation,
-} = itineraryApiSlice;
+} = activityApiSlice;
