@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ItineraryDetailsScreen from "./ItineraryDetailsScreen";
 import CreateItineraryScreen from "./CreateItineraryScreen";
+import PlansScreen from "./PlansScreen";
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,24 @@ const ItineraryStack = () => {
                 })}
                 name="CreateItineraryScreen"
                 component={CreateItineraryScreen}
+            />
+            <Stack.Screen
+                options={({ navigation }) => ({
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack("HomeScreen")}
+                            style={{ paddingLeft: 8 }}
+                        >
+                            <Ionicons
+                                name="chevron-back"
+                                size={24}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+                name="PlansScreen"
+                component={PlansScreen}
             />
         </Stack.Navigator>
     );
