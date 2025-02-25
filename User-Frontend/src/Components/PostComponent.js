@@ -10,6 +10,8 @@ import {
 import { Video } from "expo-av";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useIsFocused } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useBookmarkPostMutation } from "../Redux/Services/userAccountApiSlice";
 
 const width = Dimensions.get("window").width;
 const postWidth = width - 32;
@@ -75,6 +77,8 @@ const PostComponent = ({ navigation, post, isVisible }) => {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
     const flatListRef = useRef(null);
 
+    const [bookmarkPost] = useBookmarkPostMutation();
+
     const handleMediaViewableItemsChanged = ({ viewableItems }) => {
         if (viewableItems.length > 0) {
             setCurrentMediaIndex(viewableItems[0]?.index || 0);
@@ -95,6 +99,16 @@ const PostComponent = ({ navigation, post, isVisible }) => {
             );
         } else {
             return <DisplayImages item={item} />;
+        }
+    };
+
+    const handleBookmark = async (postId) => {
+        try {
+            console.log("Bookmarking post:", postId);
+            const res = await bookmarkPost({ postId }).unwrap();
+            console.log("Bookmark response:", res);
+        } catch (error) {
+            console.error("Error bookmarking place:", error);
         }
     };
 
@@ -120,11 +134,11 @@ const PostComponent = ({ navigation, post, isVisible }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
-                        <FontAwesome6
-                            name="bars-staggered"
-                            size={18}
-                            color="#1e1e1e"
+                    <TouchableOpacity onPress={() => handleBookmark(post._id)}>
+                        <Ionicons
+                            name="bookmark-outline"
+                            size={24}
+                            color="#000"
                         />
                     </TouchableOpacity>
                 </View>
