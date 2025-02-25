@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ItineraryDetailsScreen from "./ItineraryDetailsScreen";
 import CreateItineraryScreen from "./CreateItineraryScreen";
 import PlansScreen from "./PlansScreen";
+import CreateActivityScreen from "./CreateActivityScreen";
 
 const Stack = createStackNavigator();
 
@@ -81,6 +82,24 @@ const ItineraryStack = () => {
                 })}
                 name="PlansScreen"
                 component={PlansScreen}
+            />
+            <Stack.Screen
+                options={({ navigation }) => ({
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack("HomeScreen")}
+                            style={{ paddingLeft: 8 }}
+                        >
+                            <Ionicons
+                                name="chevron-back"
+                                size={24}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+                name="CreateActivityScreen"
+                component={CreateActivityScreen}
             />
         </Stack.Navigator>
     );

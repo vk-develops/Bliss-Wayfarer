@@ -79,7 +79,9 @@ const ItineraryDetailsScreen = ({ route, navigation }) => {
                             key={index}
                             className="bg-white p-4 rounded-lg shadow-lg shadow-slate-100 mb-4 flex-row items-center"
                             onPress={() =>
-                                navigation.navigate("PlansScreen", {})
+                                navigation.navigate("PlansScreen", {
+                                    itinerary,
+                                })
                             }
                         >
                             <Feather

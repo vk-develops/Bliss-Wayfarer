@@ -30,7 +30,7 @@ export const activityApiSlice = apiSlice.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: ["Activity"],
+            invalidatesTags: ["Itinerary"],
         }),
 
         updateActivity: builder.mutation({
@@ -40,7 +40,7 @@ export const activityApiSlice = apiSlice.injectEndpoints({
                 credentials: "include",
                 body: data,
             }),
-            invalidatesTags: ["Activity"],
+            invalidatesTags: ["Itinerary"],
         }),
         deleteActivity: builder.mutation({
             query: ({ id, dayNumber, activityId }) => ({
@@ -48,7 +48,7 @@ export const activityApiSlice = apiSlice.injectEndpoints({
                 method: "DELETE",
                 credentials: "include",
             }),
-            invalidatesTags: ["Activity"],
+            invalidatesTags: ["Itinerary"],
         }),
     }),
     overrideExisting: true,
