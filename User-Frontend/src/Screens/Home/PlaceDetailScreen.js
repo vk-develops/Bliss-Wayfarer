@@ -5,11 +5,13 @@ import {
     FlatList,
     ActivityIndicator,
     Image,
+    TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getPlaceDetail } from "../../../sanityClient";
 import { getSanityImageUrl } from "../../Helper/sanityImg";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useBookmarkPlaceMutation } from "../../Redux/Services/userAccountApiSlice";
 
 const PlaceDetailScreen = ({ route, navigation }) => {
     const { id } = route.params;
@@ -19,6 +21,8 @@ const PlaceDetailScreen = ({ route, navigation }) => {
         const data = await getPlaceDetail(id);
         setData(data[0]);
     };
+
+    const [bookmarkPlace] = useBookmarkPlaceMutation();
 
     useEffect(() => {
         fetchData(id);
@@ -30,13 +34,21 @@ const PlaceDetailScreen = ({ route, navigation }) => {
         });
     }, [navigation, data]);
 
-    console.log(data);
+    const handleBookmark = async (placeId) => {
+        try {
+            console.log("Bookmarking place:", placeId);
+            const res = await bookmarkPlace({ placeId }).unwrap();
+            console.log("Bookmark response:", res);
+        } catch (error) {
+            console.error("Error bookmarking place:", error);
+        }
+    };
 
     return (
         <ScrollView className="flex-1 bg-bgColor-light">
             {data ? (
                 <>
-                    <View className="h-64">
+                    <View className="h-64 relative">
                         <FlatList
                             data={data.images}
                             horizontal
@@ -46,12 +58,24 @@ const PlaceDetailScreen = ({ route, navigation }) => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <Image
-                                    source={{ uri: getSanityImageUrl(item) }}
+                                    source={{
+                                        uri: getSanityImageUrl(item),
+                                    }}
                                     className="w-screen h-full"
                                     resizeMode="cover"
                                 />
                             )}
                         />
+                        <TouchableOpacity
+                            onPress={() => handleBookmark(data._id)}
+                            className="absolute top-4 right-4 bg-purple--800 p-2 rounded-full"
+                        >
+                            <Ionicons
+                                name="bookmark"
+                                size={18}
+                                color="#ffff"
+                            />
+                        </TouchableOpacity>
                     </View>
                     <View className="p-4">
                         <Text
