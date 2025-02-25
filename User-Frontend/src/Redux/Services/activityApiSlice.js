@@ -23,6 +23,7 @@ export const activityApiSlice = apiSlice.injectEndpoints({
 
         createActivity: builder.mutation({
             query: ({ data, id, dayNumber }) => {
+                console.log(data);
                 return {
                     url: `${ITINERARY_API}/itinerary/${id}/days/${dayNumber}/activities`,
                     method: "POST",

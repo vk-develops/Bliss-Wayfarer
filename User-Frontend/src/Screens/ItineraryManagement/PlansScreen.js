@@ -3,10 +3,8 @@ import React from "react";
 import { format } from "date-fns";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const PlansScreen = ({ route }) => {
+const PlansScreen = ({ route, navigation }) => {
     const { itinerary } = route.params;
-
-    console.log("iti", itinerary);
 
     return (
         <ScrollView className="flex-1 p-4 bg-gray-100">
@@ -39,7 +37,15 @@ const PlansScreen = ({ route }) => {
                             {format(new Date(day.date), "MMM dd, yyyy")}
                         </Text>
 
-                        <TouchableOpacity className="bg-purple--800 p-2 rounded-full">
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("CreateActivityScreen", {
+                                    itineraryId: itinerary._id, // Pass the itinerary ID
+                                    dayNumber: day.dayNumber, // Pass the day number
+                                })
+                            }
+                            className="bg-purple--800 p-2 rounded-full"
+                        >
                             <Ionicons
                                 name="create-outline"
                                 size={20}

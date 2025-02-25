@@ -34,8 +34,6 @@ const ItineraryDetailsScreen = ({ route, navigation }) => {
         return <ActivityIndicator size={50} />;
     }
 
-    console.log(itinerary);
-
     return (
         <ScrollView className="flex-1 bg-bgColor-light">
             {itinerary && (
