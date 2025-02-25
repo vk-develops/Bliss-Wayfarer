@@ -7,6 +7,7 @@ import {
     generateOTP,
     mailTransport,
 } from "../Utils/accountVerifiactionUtil.js";
+import client from "../sanityConfig.js";
 
 // @desc    Verify account by entering the OTP recieved
 // @route   POST /api/v1/users/account/verify
@@ -120,9 +121,11 @@ const verifyAccount = asyncHandler(async (req, res) => {
 });
 
 const bookmarkPosts = asyncHandler(async (req, res) => {
-    const { userId, postId } = req.body;
+    const { postId } = req.body;
 
     try {
+        const userId = req.user._id;
+
         const user = await User.findById(userId);
         if (!user)
             return res
@@ -149,9 +152,11 @@ const bookmarkPosts = asyncHandler(async (req, res) => {
 });
 
 const bookmarkPlaces = asyncHandler(async (req, res) => {
-    const { userId, placeId } = req.body;
+    const { placeId } = req.body;
 
     try {
+        const userId = req.user._id;
+
         const user = await User.findById(userId);
         if (!user)
             return res
@@ -179,7 +184,7 @@ const bookmarkPlaces = asyncHandler(async (req, res) => {
 
 const getBookmarkedPosts = asyncHandler(async (req, res) => {
     try {
-        const { userId } = req.params;
+        const userId = req.user._id;
 
         const user = await User.findById(userId).populate("bookmarkedPosts");
 
@@ -197,18 +202,18 @@ const getBookmarkedPosts = asyncHandler(async (req, res) => {
 
 const getBookmarkedPlaces = asyncHandler(async (req, res) => {
     try {
-        const { userId } = req.params;
+        const userId = req.user._id;
 
-        // Find user
         const user = await User.findById(userId);
-        if (!user)
+        if (!user) {
             return res
                 .status(404)
                 .json({ success: false, message: "User not found" });
+        }
 
-        // Query Sanity for places based on bookmarked IDs
-        const query = `*[_type == "place" && _id in $ids]`;
-        const places = await sanityClient.fetch(query, {
+        const query = `*[_id in $ids]`;
+
+        const places = await client.fetch(query, {
             ids: user.bookmarkedPlaces,
         });
 
@@ -220,4 +225,10 @@ const getBookmarkedPlaces = asyncHandler(async (req, res) => {
 });
 
 //Exports
-export { verifyAccount, bookmarkPosts, bookmarkPlaces };
+export {
+    verifyAccount,
+    bookmarkPosts,
+    bookmarkPlaces,
+    getBookmarkedPlaces,
+    getBookmarkedPosts,
+};
