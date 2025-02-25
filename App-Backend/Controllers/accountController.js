@@ -142,8 +142,9 @@ const bookmarkPosts = asyncHandler(async (req, res) => {
             message: "Bookmark updated",
             data: user.bookmarkedPosts,
         });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
     }
 });
 
@@ -170,8 +171,51 @@ const bookmarkPlaces = asyncHandler(async (req, res) => {
             message: "Bookmark updated",
             data: user.bookmarkedPlaces,
         });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const getBookmarkedPosts = asyncHandler(async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findById(userId).populate("bookmarkedPosts");
+
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        res.status(200).json({ success: true, posts: user.bookmarkedPosts });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const getBookmarkedPlaces = asyncHandler(async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        // Find user
+        const user = await User.findById(userId);
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        // Query Sanity for places based on bookmarked IDs
+        const query = `*[_type == "place" && _id in $ids]`;
+        const places = await sanityClient.fetch(query, {
+            ids: user.bookmarkedPlaces,
+        });
+
+        res.status(200).json({ success: true, places });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
     }
 });
 
