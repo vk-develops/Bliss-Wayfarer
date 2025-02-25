@@ -3,8 +3,15 @@ import {
     DrawerItemList,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
+import useLogout from "../Hooks/useLogout";
 
 const CustomDrawer = (props) => {
+    const { logoutHandler } = useLogout();
+
+    const handleLogout = async () => {
+        await logoutHandler();
+    };
+
     return (
         <View className="flex-1">
             <View className="bg-purple--800 h-56 relative">
@@ -39,6 +46,17 @@ const CustomDrawer = (props) => {
             >
                 <DrawerItemList {...props}></DrawerItemList>
             </DrawerContentScrollView>
+            <TouchableOpacity
+                onPress={handleLogout}
+                className="flex items-center justify-center bg-red-500 m-4 py-4 rounded-lg"
+            >
+                <Text
+                    style={{ fontFamily: "jakartaBold" }}
+                    className="text-lg text-white"
+                >
+                    Logout
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 };

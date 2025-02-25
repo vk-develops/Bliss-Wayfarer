@@ -81,7 +81,7 @@ const activitySchema = new mongoose.Schema({
         type: String, // Format: "HH:mm"
         required: true,
     },
-    // Reference to either a Sanity place or a community post
+
     references: [
         {
             type: {
