@@ -41,6 +41,8 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    bookmarkedPlaces: [{ type: String }],
+    bookmarkedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     friends: [
         {
             type: mongoose.Schema.Types.ObjectId,

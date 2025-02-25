@@ -119,5 +119,61 @@ const verifyAccount = asyncHandler(async (req, res) => {
     }
 });
 
+const bookmarkPosts = asyncHandler(async (req, res) => {
+    const { userId, postId } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        const index = user.bookmarkedPosts.indexOf(postId);
+        if (index === -1) {
+            user.bookmarkedPosts.push(postId);
+        } else {
+            user.bookmarkedPosts.splice(index, 1);
+        }
+
+        await user.save();
+        res.json({
+            success: true,
+            message: "Bookmark updated",
+            data: user.bookmarkedPosts,
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+const bookmarkPlaces = asyncHandler(async (req, res) => {
+    const { userId, placeId } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        const index = user.bookmarkedPlaces.indexOf(placeId);
+        if (index === -1) {
+            user.bookmarkedPlaces.push(placeId);
+        } else {
+            user.bookmarkedPlaces.splice(index, 1);
+        }
+
+        await user.save();
+        res.json({
+            success: true,
+            message: "Bookmark updated",
+            data: user.bookmarkedPlaces,
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 //Exports
-export { verifyAccount };
+export { verifyAccount, bookmarkPosts, bookmarkPlaces };

@@ -13,4 +13,6 @@ router.get("/resend-otp");
 router.post("/reset-password");
 router.post("/verify-link");
 
+router.post("/bookmark-post", protect);
+
 export default router;
