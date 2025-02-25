@@ -77,7 +77,7 @@ const createItinerary = asyncHandler(async (req, res) => {
         // Validate dates
         if (!validateDateRange(startDate, endDate)) {
             return res.status(400).json({
-                error: "Invalid date range. End date must be after start date.",
+                error: "Invalid date range. End date cannot be before start date.",
             });
         }
 
@@ -88,17 +88,21 @@ const createItinerary = asyncHandler(async (req, res) => {
         );
 
         // Create initial day plans array
-        const dayPlans = Array.from({ length: numberOfDays }, (_, i) => ({
-            dayNumber: i + 1,
-            date: new Date(
-                new Date(startDate).setDate(new Date(startDate).getDate() + i)
-            ),
-            timeSlots: [
-                { slot: "morning", activities: [] },
-                { slot: "afternoon", activities: [] },
-                { slot: "evening", activities: [] },
-            ],
-        }));
+        const dayPlans = Array.from({ length: numberOfDays }, (_, i) => {
+            // Calculate the date for this day
+            const currentDate = new Date(startDate);
+            currentDate.setDate(currentDate.getDate() + i);
+
+            return {
+                dayNumber: i + 1,
+                date: currentDate,
+                timeSlots: [
+                    { slot: "morning", activities: [] },
+                    { slot: "afternoon", activities: [] },
+                    { slot: "evening", activities: [] },
+                ],
+            };
+        });
 
         const newItinerary = new Itinerary({
             tripName,

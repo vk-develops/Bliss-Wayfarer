@@ -70,7 +70,10 @@ const ItineraryScreen = ({ navigation }) => {
                 )}
 
                 <View className="h-[1px] w-full bg-[#ddd] my-4 rounded-full"></View>
-                <TouchableOpacity className="flex items-center justify-center flex-row border-[1px] border-slate-400 rounded-lg">
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("CreateItineraryScreen")}
+                    className="flex items-center justify-center flex-row border-[1px] border-slate-400 rounded-lg"
+                >
                     <Ionicons
                         name="add"
                         size={20}
