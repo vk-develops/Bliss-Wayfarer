@@ -56,6 +56,12 @@ const PlansScreen = ({ route, navigation }) => {
                             {/* Activities */}
                             {slot.activities.map((activity, index) => (
                                 <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate(
+                                            "ActivityDetailScreen",
+                                            { activity }
+                                        )
+                                    }
                                     key={index}
                                     className="bg-gray-100 p-3 rounded-lg mt-2"
                                 >
