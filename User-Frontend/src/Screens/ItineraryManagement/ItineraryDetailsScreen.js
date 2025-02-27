@@ -79,6 +79,7 @@ const ItineraryDetailsScreen = ({ route, navigation }) => {
                             onPress={() =>
                                 navigation.navigate("PlansScreen", {
                                     itinerary,
+                                    index: index + 1,
                                 })
                             }
                         >

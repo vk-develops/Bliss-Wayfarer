@@ -13,7 +13,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useCreateActivityMutation } from "../../Redux/Services/activityApiSlice";
 
-const timeSlots = ["morning", "afternoon", "evening", "night"];
+const timeSlots = ["morning", "afternoon", "evening"];
 
 const CreateActivityScreen = ({ route }) => {
     const { itineraryId, dayNumber } = route.params;

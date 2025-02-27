@@ -4,29 +4,17 @@ import { format } from "date-fns";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const PlansScreen = ({ route, navigation }) => {
-    const { itinerary } = route.params;
+    const { itinerary, index } = route.params;
+
+    // Find the day from the itinerary that matches the passed dayNumber
+    const day = itinerary.dayPlans.find((d) => d.dayNumber === index);
+
+    // console.log(day.timeSlots[0].activities);
 
     return (
         <ScrollView className="flex-1 p-4 bg-gray-100">
-            {/* Trip Details */}
-            <View className="bg-blue-600 p-6 rounded-xl shadow-lg mb-4">
-                <Text className="text-white text-2xl font-bold">
-                    {itinerary.tripName}
-                </Text>
-                <Text className="text-white text-lg mt-1">
-                    {itinerary.location}
-                </Text>
-                <Text className="text-white mt-2">
-                    {format(new Date(itinerary.startDate), "MMM dd, yyyy")} -{" "}
-                    {format(new Date(itinerary.endDate), "MMM dd, yyyy")}
-                </Text>
-                <Text className="text-white mt-2">
-                    Total Budget: ₹{itinerary.totalBudget.toLocaleString()}
-                </Text>
-            </View>
-
-            {/* Day Plans */}
-            {itinerary.dayPlans.map((day) => (
+            {/* Day Plan */}
+            {day && (
                 <View
                     key={day.dayNumber}
                     className="bg-white p-4 mb-4 rounded-lg shadow"
@@ -40,11 +28,11 @@ const PlansScreen = ({ route, navigation }) => {
                         <TouchableOpacity
                             onPress={() =>
                                 navigation.navigate("CreateActivityScreen", {
-                                    itineraryId: itinerary._id, // Pass the itinerary ID
-                                    dayNumber: day.dayNumber, // Pass the day number
+                                    itineraryId: itinerary._id,
+                                    dayNumber: day.dayNumber,
                                 })
                             }
-                            className="bg-purple--800 p-2 rounded-full"
+                            className="bg-purple-800 p-2 rounded-full"
                         >
                             <Ionicons
                                 name="create-outline"
@@ -95,12 +83,12 @@ const PlansScreen = ({ route, navigation }) => {
                         </View>
                     ))}
                 </View>
-            ))}
+            )}
 
             {/* Add Reference Button */}
             <TouchableOpacity
                 className="bg-green-600 p-4 rounded-lg mt-4"
-                onPress={() => navigation.navigate("BookmarksScreen", { id })}
+                onPress={() => navigation.navigate("BookmarksScreen")}
             >
                 <Text className="text-white text-center font-bold">
                     Add Reference
@@ -110,7 +98,7 @@ const PlansScreen = ({ route, navigation }) => {
             {/* Edit Plan Button */}
             <TouchableOpacity
                 className="bg-blue-600 p-4 rounded-lg mt-4"
-                onPress={() => navigation.navigate("EditPlanScreen", { id })}
+                onPress={() => navigation.navigate("EditPlanScreen")}
             >
                 <Text className="text-white text-center font-bold">
                     Edit Plan

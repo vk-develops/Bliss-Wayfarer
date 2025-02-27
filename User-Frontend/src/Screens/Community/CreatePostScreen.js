@@ -12,6 +12,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import { useCreatePostMutation } from "../../Redux/Services/communityApiSlice";
+import { useErrorToast } from "../../Hooks/useToast";
 
 const CreatePostScreen = ({ navigation }) => {
     // Form state
@@ -108,7 +109,7 @@ const CreatePostScreen = ({ navigation }) => {
     };
 
     const handleSubmit = async () => {
-        if (!title || !caption || media.length === 0 || !location) {
+        if (!title || !caption || !location) {
             setErrorMsg("All fields are required");
             return;
         }
@@ -145,8 +146,8 @@ const CreatePostScreen = ({ navigation }) => {
 
             // Send to backend using RTK Query
             const response = await createPost(data).unwrap();
-            console.log(response);
-
+            console.log("post res", response);
+            useErrorToast({ msg: "Post Flagged, offensive post detected" });
             console.log("end");
         } catch (error) {
             setErrorMsg("Error creating post: " + error.message);
@@ -285,9 +286,7 @@ const CreatePostScreen = ({ navigation }) => {
                         : "bg-green-500"
                 }`}
                 onPress={handleSubmit}
-                disabled={
-                    !title || !caption || !media || !location || isSubmitting
-                }
+                disabled={!title || !caption || !location || isSubmitting}
             >
                 {isSubmitting ? (
                     <ActivityIndicator
