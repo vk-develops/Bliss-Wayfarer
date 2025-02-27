@@ -6,6 +6,7 @@ import ItineraryDetailsScreen from "./ItineraryDetailsScreen";
 import CreateItineraryScreen from "./CreateItineraryScreen";
 import PlansScreen from "./PlansScreen";
 import CreateActivityScreen from "./CreateActivityScreen";
+import BookmarksScreen from "./BookMarksScreen";
 
 const Stack = createStackNavigator();
 
@@ -100,6 +101,24 @@ const ItineraryStack = () => {
                 })}
                 name="CreateActivityScreen"
                 component={CreateActivityScreen}
+            />
+            <Stack.Screen
+                options={({ navigation }) => ({
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack("HomeScreen")}
+                            style={{ paddingLeft: 8 }}
+                        >
+                            <Ionicons
+                                name="chevron-back"
+                                size={24}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+                name="BookmarksScreen"
+                component={BookmarksScreen}
             />
         </Stack.Navigator>
     );

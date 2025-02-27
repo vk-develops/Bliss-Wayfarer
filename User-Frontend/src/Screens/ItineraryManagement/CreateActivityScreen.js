@@ -163,7 +163,7 @@ const CreateActivityScreen = ({ route }) => {
 
                 <TouchableOpacity
                     className="bg-blue-500 p-3 rounded-lg my-4"
-                    onPress={handleAddReference}
+                    onPress={() => navigation.navigate("BookmarksScreen")}
                 >
                     <Text className="text-white text-center font-bold">
                         Add Reference
