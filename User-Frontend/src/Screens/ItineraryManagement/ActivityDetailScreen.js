@@ -12,9 +12,12 @@ import React, { useEffect, useState } from "react";
 import { getPlaceDetail } from "../../../sanityClient";
 import { useGetAPostQuery } from "../../Redux/Services/communityApiSlice";
 import { getSanityImageUrl } from "../../Helper/sanityImg";
-
 const ReferenceItem = ({ reference, placesData, navigation }) => {
-    const { data: postData, isLoading: postLoading } = useGetAPostQuery(
+    const {
+        data: postData,
+        isLoading: postLoading,
+        error,
+    } = useGetAPostQuery(
         { id: reference.referenceId },
         {
             skip: reference.type !== "post",
@@ -22,18 +25,69 @@ const ReferenceItem = ({ reference, placesData, navigation }) => {
     );
 
     if (reference.type === "post") {
-        if (postLoading)
+        if (postLoading) {
             return (
                 <ActivityIndicator
                     size="small"
                     color="blue"
                 />
             );
-        return <View className="w-[200px]"></View>;
+        }
+
+        if (error) {
+            return (
+                <Text style={{ color: "red" }}>
+                    Error fetching data: {error.message}
+                </Text>
+            );
+        }
+
+        if (!postData) {
+            return <Text>No data available.</Text>;
+        }
+
+        console.log(postData.data);
+
+        // Assuming postData is a single object
+        return (
+            <ScrollView className="mt-10">
+                <Text
+                    style={{ fontFamily: "jakartaSemiBold" }}
+                    className="text-2xl pb-5"
+                >
+                    Post Reference
+                </Text>
+                {postData.data && (
+                    <TouchableOpacity
+                        // onPress={() =>
+                        //     navigation.navigate("PostDetailScreen", {
+                        //         id: postData.data._id,
+                        //     })
+                        // }
+                        className="w-[200px] overflow-hidden"
+                    >
+                        <Image
+                            className="w-full h-[100px] rounded-lg "
+                            source={{ uri: postData.data.media[0].url }}
+                        />
+                        <Text
+                            style={{ fontFamily: "jakartaSemiBold" }}
+                            className="text-xl pt-2"
+                        >
+                            {postData.data.title}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            </ScrollView>
+        );
     }
 
     if (reference.type === "sanity") {
         const placeData = placesData[reference.referenceId];
+
+        if (!placeData || !Array.isArray(placeData)) {
+            return <Text>No data available.</Text>;
+        }
 
         return (
             <ScrollView className="mt-10">
@@ -81,6 +135,8 @@ const ActivityDetailScreen = ({ route, navigation }) => {
 
     const [places, setPlaces] = useState({});
     const [loading, setLoading] = useState(true);
+
+    console.log("Activity", activity);
 
     const fetchPlaces = async () => {
         if (!activity.references) {
