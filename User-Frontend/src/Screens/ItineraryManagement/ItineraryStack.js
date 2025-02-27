@@ -116,6 +116,7 @@ const ItineraryStack = () => {
                             />
                         </TouchableOpacity>
                     ),
+                    presentation: "modal",
                 })}
                 name="BookmarksScreen"
                 component={BookmarksScreen}

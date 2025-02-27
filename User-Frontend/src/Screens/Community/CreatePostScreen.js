@@ -147,7 +147,7 @@ const CreatePostScreen = ({ navigation }) => {
             // Send to backend using RTK Query
             const response = await createPost(data).unwrap();
             console.log("post res", response);
-            useErrorToast({ msg: "Post Flagged, offensive post detected" });
+            useErrorToast({ msg: "Post Flagged, offensive media detected" });
             console.log("end");
         } catch (error) {
             setErrorMsg("Error creating post: " + error.message);

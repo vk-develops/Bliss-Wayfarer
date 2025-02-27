@@ -55,7 +55,7 @@ const PlansScreen = ({ route, navigation }) => {
 
                             {/* Activities */}
                             {slot.activities.map((activity, index) => (
-                                <View
+                                <TouchableOpacity
                                     key={index}
                                     className="bg-gray-100 p-3 rounded-lg mt-2"
                                 >
@@ -78,7 +78,7 @@ const PlansScreen = ({ route, navigation }) => {
                                                 : "Post"}
                                         </Text>
                                     ))}
-                                </View>
+                                </TouchableOpacity>
                             ))}
                         </View>
                     ))}
