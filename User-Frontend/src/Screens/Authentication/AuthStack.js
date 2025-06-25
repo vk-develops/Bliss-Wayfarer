@@ -5,6 +5,7 @@ import {
 import React from "react";
 import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
+import VerificationScreen from "./VerificationScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,10 @@ const AuthStack = () => {
             <Stack.Screen
                 name="LoginScreen"
                 component={LoginScreen}
+            />
+            <Stack.Screen
+                name="VerificationScreen"
+                component={VerificationScreen}
             />
         </Stack.Navigator>
     );

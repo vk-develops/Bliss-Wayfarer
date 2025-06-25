@@ -7,6 +7,7 @@ import {
     generateOTP,
     mailTransport,
 } from "../Utils/accountVerifiactionUtil.js";
+import client from "../sanityConfig.js";
 
 // @desc    Verify account by entering the OTP recieved
 // @route   POST /api/v1/users/account/verify
@@ -119,5 +120,115 @@ const verifyAccount = asyncHandler(async (req, res) => {
     }
 });
 
+const bookmarkPosts = asyncHandler(async (req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const userId = req.user._id;
+
+        const user = await User.findById(userId);
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        const index = user.bookmarkedPosts.indexOf(postId);
+        if (index === -1) {
+            user.bookmarkedPosts.push(postId);
+        } else {
+            user.bookmarkedPosts.splice(index, 1);
+        }
+
+        await user.save();
+        res.json({
+            success: true,
+            message: "Bookmark updated",
+            data: user.bookmarkedPosts,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const bookmarkPlaces = asyncHandler(async (req, res) => {
+    const { placeId } = req.body;
+
+    try {
+        const userId = req.user._id;
+
+        const user = await User.findById(userId);
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        const index = user.bookmarkedPlaces.indexOf(placeId);
+        if (index === -1) {
+            user.bookmarkedPlaces.push(placeId);
+        } else {
+            user.bookmarkedPlaces.splice(index, 1);
+        }
+
+        await user.save();
+        res.json({
+            success: true,
+            message: "Bookmark updated",
+            data: user.bookmarkedPlaces,
+        });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const getBookmarkedPosts = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const user = await User.findById(userId).populate("bookmarkedPosts");
+
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+
+        res.status(200).json({ success: true, posts: user.bookmarkedPosts });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
+const getBookmarkedPlaces = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+        }
+
+        const query = `*[_id in $ids]`;
+
+        const places = await client.fetch(query, {
+            ids: user.bookmarkedPlaces,
+        });
+
+        res.status(200).json({ success: true, places });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ success: false, err: err.message });
+    }
+});
+
 //Exports
-export { verifyAccount };
+export {
+    verifyAccount,
+    bookmarkPosts,
+    bookmarkPlaces,
+    getBookmarkedPlaces,
+    getBookmarkedPosts,
+};

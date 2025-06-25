@@ -41,6 +41,33 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    bookmarkedPlaces: [{ type: String }],
+    bookmarkedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    friendRequestsSent: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    friendRequestsReceived: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    //chats
+    unreadMessages: [
+        {
+            sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            count: { type: Number, default: 0 },
+        },
+    ],
 });
 
 const User = mongoose.model("User", userSchema);
